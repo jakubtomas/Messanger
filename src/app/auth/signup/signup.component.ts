@@ -1,10 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+//import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {UsersService} from "../../services/users.service";
-import {SignupRequestPayload} from "./singup-request.payload";
 import {RegistrationUser} from "./registrationUser";
-import {AuthService} from '../../services/auth.service';
 
 @Component({
     selector: 'signup',
@@ -13,29 +11,13 @@ import {AuthService} from '../../services/auth.service';
 })
 export class SignupComponent implements OnInit {
 
-    signupRequestPayload: SignupRequestPayload | undefined;
-    //private signupForm: FormGroup;
-    //signupForm: FormGroup | undefined;
-    // private registrationUser: RegistrationUser;
+    public password2: string = '';
+    public value: string = '';
+    public error: string = '';
+    registrationUser = new RegistrationUser();
 
-    constructor(private authService: AuthService,
-                /*private signupForm: FormGroup,*/
+    constructor(private userService: UsersService,
                 private router: Router) {
-        /*this.signupRequestPayload = {
-          username : '',
-          email: '',
-          password: ''
-        },*/
-
-        /*
-              this.registrationUser = {
-                  fname : "Angular",
-                  lname: 'Angular',
-                  login: 'user24',
-                  password: 'password123123'
-              }
-        */
-
     }
 
     ngOnInit(): void {
@@ -46,53 +28,42 @@ export class SignupComponent implements OnInit {
         });*/
     }
 
-    signup() {
-        console.log("Click button ");
 
-        // potrebne skontrolova ci objekt nieje null a potom priradit
-        /* if (this.signupForm.get('email').value != null ) {
+    get printAuth() {
+        return JSON.stringify(this.registrationUser);
+    }
 
-         }*/
+    get printData() {
+        return JSON.stringify(this.value)
+    }
 
+    get printError() {
+        return JSON.stringify(this.error)
+    }
 
-        // Take data from Signup Form and put to the Object
-        // @ts-ignore
-        //this.signupRequestPayload.email = this.signupForm.get('email').value;
-        // @ts-ignore
-        //  this.signupRequestPayload.username = this.signupForm.get('username').value;
-        // @ts-ignore
-//    this.signupRequestPayload.password = this.signupForm.get('password').value;
+    onSubmit() {
+        console.log("Click button  onSubmit");
+        this.userService.signup(this.registrationUser)
+            .subscribe((data: any) => {//(data: any)
+                    console.log("data in signup");
 
+                    console.log(data);
+                    console.log("Json stringifz data  " + JSON.stringify(data));
 
-        var myHeaders = new Headers();
-        myHeaders.append("Content-Type", "text/plain");
+                    this.value = data
+                },
+                /*(error: any) => {
+                    console.log(error);
+                    console.log(" error is " + error);
+                    console.log("Json strigifyz error" +  JSON.stringify(error));
+                   // console.log(" error is " + error.error.error );
+                    console.log(" error status" +error);
 
-        var raw = {
-
-            "fname": "new user",
-            "lname": "second name",
-            "login": "user245",
-            "password": "password123123"
-        };
-
-        var requestOptions = {
-            method: 'POST',
-            headers: myHeaders,
-            body: raw,
-            redirect: 'follow'
-        };
-
-        // @ts-ignore
-        fetch("https://localhost:8080/signup", requestOptions)
-            .then(response => response.text())
-            .then(result => console.log(result))
-            .catch(error => console.log('error', error));
-
-
-        /*
-              this.authService.signup(this.registrationUser)
-                  .subscribe((data: any)=> {//(data: any)
-                      console.log(data);
-                  });*/
+                    this.error = error
+                },*/
+                () => {
+                    console.info("we are done here ")
+                }
+            );
     }
 }

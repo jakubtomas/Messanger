@@ -11,6 +11,7 @@ import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
 import {RegistrationComponent} from './registration/registration.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {SignupComponent} from './auth/signup/signup.component';
+import {MessageComponent} from './message/message.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import {SignupComponent} from './auth/signup/signup.component';
     NavbarComponent,
     PageNotFoundComponent,
     RegistrationComponent,
-    SignupComponent
+      SignupComponent,
+      MessageComponent
   ],
   imports: [
     BrowserModule,

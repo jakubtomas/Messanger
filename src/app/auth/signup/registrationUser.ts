@@ -1,8 +1,12 @@
-export interface RegistrationUser {
-    fname: string;
-    lname: string;
-    login: string;
-    password: string;
+export class RegistrationUser {
+    constructor(
+        public   fname: string = '',
+        public   lname: string = '',
+        public   login: string = '',
+        public   password: string = ''
+    ) {
+    }
+
 }
 
 /*this.signupRequestPayload = {
