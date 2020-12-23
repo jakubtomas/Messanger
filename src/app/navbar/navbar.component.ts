@@ -19,7 +19,8 @@ export class NavbarComponent implements OnInit {
             userName => this.loggedUser = userName
         );*/
 
-        this.token = this.usersService.token
+        //this.token = UsersService.token
+
     }
 
     logout() {

@@ -6,6 +6,8 @@ import {RegistrationUser} from "../auth/signup/registrationUser";
 import {MessageService} from "./message.service";
 import {catchError, map} from "rxjs/operators";
 import {Auth} from "../entities/auth";
+import {HttpHeaders} from '@angular/common/http';
+import {getToken} from "codelyzer/angular/styles/cssLexer";
 
 /// anotacia ma sa tento servis brat do uvahz
 
@@ -14,23 +16,32 @@ import {Auth} from "../entities/auth";
 })
 export class UsersService {
 
+    loginForApi: string = '';
+
 
     private serverUrl = "http://localhost:8080/";
+
 
     constructor(private http: HttpClient,
                 private messageService: MessageService) {
 
+
+
+
     }
 
-
-    set token(value: string) {
-        if (value)
+    private set token(value: string) {
+        if (value) {
             localStorage.setItem('token', value);
-        else
+            //this.httpOptions.headers = this.httpOptions.headers.set('Authorization', value);
+
+        } else {
+
             localStorage.removeItem('token');
+        }
     }
 
-    get token() {
+    private get token(): string {
         // @ts-ignore
         return localStorage.getItem('token');
     }
@@ -46,7 +57,7 @@ export class UsersService {
             .pipe(
                 map(data => {
                     console.log(data);
-                    
+
                     console.log(" data from pipe " + JSON.stringify(data));
                     this.messageService.sendMessage(JSON.stringify(data), true);
                     return true;
@@ -61,19 +72,29 @@ export class UsersService {
 
     login(auth: Auth): Observable<boolean | void> {
         return this.http.post(this.serverUrl + "login", auth, {responseType: 'text'}).pipe(
-            map(data => {
-                console.log(data);
+            map(token => {
+                console.log(token);
+                console.log("data is in login " + token);
+                console.log("Login data user.service" + JSON.stringify(token));
 
-                console.log("Login data user.service" + JSON.stringify(data));
 
-                //this.token = token;
-                //this.user = auth.name;
-                this.messageService.sendMessage(`Nahlásenie používateľa ${data} úspešné`, false);
+                this.token = token;
+
+
+                console.log(` askking for token ` + this.token);
+
+                // @ts-ignore
+                //this.token("hello");
+                this.user = auth.login;
+                this.loginForApi = auth.login;
+                this.messageService.sendMessage(`Nahlásenie používateľa ${auth.login} ${token} úspešné`, false);
                 return true;
             }),
             catchError(error => {
                 //     this.logout();
                 console.log(" error from login" + error);
+                console.log(" error from login" + error.toString());
+                console.log(" error from login" + JSON.stringify(error));
 
 
                 return this.processHttpError(error);
@@ -81,6 +102,57 @@ export class UsersService {
         );
     }
 
+    getLoginHistory(): Observable<any> {
+
+
+        /* const httpOptions = {
+             headers: new HttpHeaders({
+                 'Content-Type': 'application/json',
+                 'Authorization': 'my-auth-token'
+             })
+         };*/
+
+        let httpHeaders = new HttpHeaders(
+            {
+                'Content-Type': 'application/json',
+                'Authorization': 'my-auth-token'
+            });
+
+
+        console.log('getLogin history token is ' + this.token);
+
+        httpHeaders = httpHeaders.set('Authorization', this.token);
+
+        const body = JSON.stringify({login: this.loginForApi});
+        /*
+                let headers = new HttpHeaders();
+                headers.set('Content-Type', 'application/json; charset=utf-8');
+                headers.set('Authorization', this.token);*/
+
+
+        return this.http.post(this.serverUrl + "log", body, {headers: httpHeaders}).pipe(
+            map(data => {
+                console.log(data);
+                console.log("data from GetLoginHistory" + data);
+                console.log("data from GetLoginHistory" + JSON.stringify(data));
+            }),
+            catchError(error => {
+                //     this.logout();
+                console.log(" error from GetLoginHistory" + error);
+                console.log(" error from GetLoginHistory" + error.toString());
+                console.log(" error from GetLoginHistory" + JSON.stringify(error));
+
+
+                return this.processHttpError(error);
+            })
+        );
+
+
+        /*return this.http.get<Array<any>>(this.serverUrl + "users/" + this.token).pipe(
+            map(usersFromServer => this.mapToExtendedUsers(usersFromServer)),
+            catchError(error => this.processHttpError(error))
+        );*/
+    }
 
     /*getUsers(): Observable<User[]> {
         return of(this.users)
