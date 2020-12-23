@@ -10,7 +10,7 @@ import {Router} from "@angular/router";
 export class NavbarComponent implements OnInit {
 
     loggedUser: string = '';
-
+    token: string = '';
     constructor(private usersService: UsersService) {
     }
 
@@ -18,6 +18,8 @@ export class NavbarComponent implements OnInit {
         /*this.usersService.getUserObservable().subscribe(
             userName => this.loggedUser = userName
         );*/
+
+        this.token = this.usersService.token
     }
 
     logout() {

@@ -12,6 +12,9 @@ import {RegistrationComponent} from './registration/registration.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {SignupComponent} from './auth/signup/signup.component';
 import {MessageComponent} from './message/message.component';
+import {LoginHistoryComponent} from './login-history/login-history.component';
+import {ProfileComponent} from './profile/profile.component';
+import {MessagesComponent} from './messages/messages.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +25,10 @@ import {MessageComponent} from './message/message.component';
     PageNotFoundComponent,
     RegistrationComponent,
       SignupComponent,
-      MessageComponent
+      MessageComponent,
+      LoginHistoryComponent,
+      ProfileComponent,
+      MessagesComponent
   ],
   imports: [
     BrowserModule,

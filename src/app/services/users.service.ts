@@ -5,6 +5,7 @@ import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {RegistrationUser} from "../auth/signup/registrationUser";
 import {MessageService} from "./message.service";
 import {catchError, map} from "rxjs/operators";
+import {Auth} from "../entities/auth";
 
 /// anotacia ma sa tento servis brat do uvahz
 
@@ -22,6 +23,19 @@ export class UsersService {
     }
 
 
+    set token(value: string) {
+        if (value)
+            localStorage.setItem('token', value);
+        else
+            localStorage.removeItem('token');
+    }
+
+    get token() {
+        // @ts-ignore
+        return localStorage.getItem('token');
+    }
+
+
     signup(registrationUser: RegistrationUser): Observable<any> {
 
 
@@ -31,8 +45,10 @@ export class UsersService {
         return this.http.post(this.serverUrl + "signup", registrationUser,)
             .pipe(
                 map(data => {
+                    console.log(data);
+                    
                     console.log(" data from pipe " + JSON.stringify(data));
-
+                    this.messageService.sendMessage(JSON.stringify(data), true);
                     return true;
                 }),
                 catchError(error => {
@@ -40,6 +56,29 @@ export class UsersService {
                     return this.processHttpError(error);
                 })
             );
+    }
+
+
+    login(auth: Auth): Observable<boolean | void> {
+        return this.http.post(this.serverUrl + "login", auth, {responseType: 'text'}).pipe(
+            map(data => {
+                console.log(data);
+
+                console.log("Login data user.service" + JSON.stringify(data));
+
+                //this.token = token;
+                //this.user = auth.name;
+                this.messageService.sendMessage(`Nahlásenie používateľa ${data} úspešné`, false);
+                return true;
+            }),
+            catchError(error => {
+                //     this.logout();
+                console.log(" error from login" + error);
+
+
+                return this.processHttpError(error);
+            })
+        );
     }
 
 

@@ -51,18 +51,8 @@ export class SignupComponent implements OnInit {
                     console.log("Json stringifz data  " + JSON.stringify(data));
 
                     this.value = data
-                },
-                /*(error: any) => {
-                    console.log(error);
-                    console.log(" error is " + error);
-                    console.log("Json strigifyz error" +  JSON.stringify(error));
-                   // console.log(" error is " + error.error.error );
-                    console.log(" error status" +error);
-
-                    this.error = error
-                },*/
-                () => {
-                    console.info("we are done here ")
+                // todo  when account successfully created do redirectAfterRegistration to Login component
+                // this.router.navigateByUrl(this.userService.redirectAfterLogin);
                 }
             );
     }

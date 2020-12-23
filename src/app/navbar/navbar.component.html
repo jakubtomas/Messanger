@@ -8,18 +8,24 @@
     <div class="collapse navbar-collapse" id="navbarText">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item" routerLinkActive="active">
-                <a class="nav-link" routerLink="/users">Používatelia</a>
+                <a class="nav-link" routerLink="/messages">Messages</a>
             </li>
             <li class="nav-item" routerLinkActive="active">
-                <a class="nav-link" routerLink="/extended-users">Rozšírení používatelia</a>
+                <a class="nav-link" routerLink="/users">Users</a>
             </li>
             <li class="nav-item" routerLinkActive="active">
-                <a class="nav-link" routerLink="/groups">Skupiny</a>
+                <a class="nav-link" routerLink="/loginHistory">History Login</a>
             </li>
             <li class="nav-item" routerLinkActive="active">
-                <a class="nav-link" routerLink="/signup">registration</a>
+                <a class="nav-link" routerLink="/profile">Profile</a>
+            </li>
+            <li class="nav-item" routerLinkActive="active">
+                <a class="nav-link" routerLink="/signup">Registration</a>
             </li>
 
+            <li class="nav-item" routerLinkActive="active">
+                <a class="nav-link" routerLink="/signup">{{token}}</a>
+            </li>
         </ul>
         <span class="navbar-text">
             <a class="nav-link" routerLink="/signup">Registration</a>

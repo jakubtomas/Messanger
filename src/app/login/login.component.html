@@ -6,16 +6,14 @@
                     <form (ngSubmit)="onSubmit()">
                         <p>Auth: {{printAuth}}</p>
                         <div class="form-group">
-                            <label>
-                                <input type="text" class="form-control" name="username"
-                                       (keyup)="changeName({event : $event})" [value]="auth.name">
-                            </label>
+                            Login:
+                            <input type="text" class="form-control" name="login"
+                                   [(ngModel)]="auth.login">
                         </div>
                         <div class="form-group">
-                            <label>
-                                <input type="password" class="form-control" name="password"
-                                       [(ngModel)]="auth.password">
-                            </label>
+                            password:
+                            <input type="password" class="form-control" name="password"
+                                   [(ngModel)]="auth.password">
                         </div>
                         <button type="submit" id="sendlogin" class="btn btn-primary">login</button>
                     </form>

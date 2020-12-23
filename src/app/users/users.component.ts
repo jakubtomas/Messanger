@@ -22,7 +22,7 @@ export class UsersComponent implements OnInit {
     ngOnInit(): void { // tu posielam data , kvoli postupnosti
         // this.users = UsersService.getUsersSynchronne();
         // dostane userov zo servise
-        this.usersService.getUsers().subscribe(usersFromService => this.users = usersFromService);
+        // this.usersService.getUsers().subscribe(usersFromService => this.users = usersFromService);
     }
 
     selectUser(user: User) {

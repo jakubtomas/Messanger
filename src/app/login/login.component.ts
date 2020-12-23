@@ -25,18 +25,18 @@ export class LoginComponent implements OnInit {
     }
 
     get printAuth() {
-        //return JSON.stringify(this.auth);
-        return null;
+        return JSON.stringify(this.auth);
+        //return null;
     }
 
-//changeName(event)
-    changeName(parameters: { event: any }) {
-        let event = parameters.event;
 
-        this.auth.name = event.target.value;
-    }
 
     onSubmit() {
+        // todo redirect what happend when false or true
+        console.log("On submit login");
+        console.log(this.auth);
+        this.userService.login(this.auth).subscribe()
+
         /*   this.userService.login(this.auth).subscribe(
                success => {
                  if (success) {
