@@ -25,9 +25,11 @@
 
 
         </ul>
-        <span class="navbar-text">
-            <a class="nav-link" routerLink="/signup">Registration</a>
-        </span>
+        <!--<span class="navbar-text">-->
+        <!--<a class="nav-link" routerLink="/signup">Registration</a>-->
+        <!--</span>-->
+
+
         <span class="navbar-text" *ngIf="loggedUser; else elseBlock">
         <strong>{{loggedUser}}</strong> (<a routerLink="/login" (click)="logout()">odhlásiť</a>)
       </span>

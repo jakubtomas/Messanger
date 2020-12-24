@@ -8,6 +8,7 @@ import {catchError, map} from "rxjs/operators";
 import {Auth} from "../entities/auth";
 import {HttpHeaders} from '@angular/common/http';
 import {getToken} from "codelyzer/angular/styles/cssLexer";
+import {ItemHistory} from "../entities/itemHistory";
 
 /// anotacia ma sa tento servis brat do uvahz
 
@@ -104,14 +105,6 @@ export class UsersService {
 
     getLoginHistory(): Observable<any> {
 
-
-        /* const httpOptions = {
-             headers: new HttpHeaders({
-                 'Content-Type': 'application/json',
-                 'Authorization': 'my-auth-token'
-             })
-         };*/
-
         let httpHeaders = new HttpHeaders(
             {
                 'Content-Type': 'application/json',
@@ -124,17 +117,18 @@ export class UsersService {
         httpHeaders = httpHeaders.set('Authorization', this.token);
 
         const body = JSON.stringify({login: this.loginForApi});
-        /*
-                let headers = new HttpHeaders();
-                headers.set('Content-Type', 'application/json; charset=utf-8');
-                headers.set('Authorization', this.token);*/
 
 
-        return this.http.post(this.serverUrl + "log", body, {headers: httpHeaders}).pipe(
-            map(data => {
-                console.log(data);
-                console.log("data from GetLoginHistory" + data);
-                console.log("data from GetLoginHistory" + JSON.stringify(data));
+        return this.http.post<Array<any>>(this.serverUrl + "log", body, {headers: httpHeaders}).pipe(
+            map(itemsHistory => {
+                console.log(itemsHistory);
+                console.log("data from GetLoginHistory" + itemsHistory);
+                console.log("data from GetLoginHistory" + JSON.stringify(itemsHistory));
+
+                return this.mapToItemHistory(itemsHistory);
+
+
+                //return itemsHistory;
             }),
             catchError(error => {
                 //     this.logout();
@@ -147,16 +141,12 @@ export class UsersService {
             })
         );
 
-
-        /*return this.http.get<Array<any>>(this.serverUrl + "users/" + this.token).pipe(
-            map(usersFromServer => this.mapToExtendedUsers(usersFromServer)),
-            catchError(error => this.processHttpError(error))
-        );*/
     }
 
-    /*getUsers(): Observable<User[]> {
-        return of(this.users)
-    }*/
+    mapToItemHistory(itemsHistoryFromServer: Array<any>): ItemHistory[] {
+        return itemsHistoryFromServer.map(item => new ItemHistory(item.datetime, item.type, item.login));
+    }
+
     processHttpError(error) {
         console.log(error);
 
