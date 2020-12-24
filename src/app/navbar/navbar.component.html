@@ -30,8 +30,8 @@
         <!--</span>-->
 
 
-        <span class="navbar-text" *ngIf="loggedUser; else elseBlock">
-        <strong>{{loggedUser}}</strong> (<a routerLink="/login" (click)="logout()">odhlásiť</a>)
+        <span class="navbar-text" *ngIf="activeLogin; else elseBlock">
+        <strong>{{activeLogin}}</strong> (<a routerLink="/login" (click)="logout()">odhlásiť</a>)
       </span>
         <ng-template #elseBlock>
         <span class="navbar-text">
@@ -42,3 +42,4 @@
 
     </div>
 </nav>
+<p>hello {{activeLogin}}</p>

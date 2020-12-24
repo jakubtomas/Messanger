@@ -9,7 +9,7 @@ import {Router} from "@angular/router";
 })
 export class NavbarComponent implements OnInit {
 
-    loggedUser: string = '';
+    activeLogin: string = '';
     token: string = '';
     constructor(private usersService: UsersService) {
     }
@@ -20,11 +20,14 @@ export class NavbarComponent implements OnInit {
         );*/
 
         //this.token = UsersService.token
-
+        this.usersService.getUserObservable().subscribe(
+            login => this.activeLogin = login
+        )
+        //  this.usersService.
     }
 
     logout() {
-        // this.usersService.logout();
+        this.usersService.logout();
     }
 
 }

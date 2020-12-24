@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {User} from "../entities/users";
-import {EMPTY, Observable, of, throwError} from "rxjs";
+import {EMPTY, Observable, of, Subscriber, throwError} from "rxjs";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {RegistrationUser} from "../auth/signup/registrationUser";
 import {MessageService} from "./message.service";
@@ -9,6 +9,7 @@ import {Auth} from "../entities/auth";
 import {HttpHeaders} from '@angular/common/http';
 import {getToken} from "codelyzer/angular/styles/cssLexer";
 import {ItemHistory} from "../entities/itemHistory";
+
 
 /// anotacia ma sa tento servis brat do uvahz
 
@@ -21,12 +22,15 @@ export class UsersService {
 
 
     private serverUrl = "http://localhost:8080/";
-
+    public activeLogin: string = '';
+    // @ts-ignore
+    private loggedUserSubscriber: Subscriber<string>;
 
     constructor(private http: HttpClient,
                 private messageService: MessageService) {
 
-
+        //this.loggedUserSubscriber = '';
+        //  this.loggedUserSubscriber.next('');
 
 
     }
@@ -42,11 +46,35 @@ export class UsersService {
         }
     }
 
+
+    set user(value: string) {
+        this.loggedUserSubscriber.next(value);
+        if (value) {
+            localStorage.setItem('user', value);
+        } else
+            localStorage.removeItem('user');
+    }
+
+    get user() {
+        //  this.loggedUserSubscriber.next(value);
+
+        //   return localStorage.getItem('user');
+        // @ts-ignore
+        return localStorage.getItem('user');
+
+    }
+
     private get token(): string {
         // @ts-ignore
         return localStorage.getItem('token');
     }
 
+    getUserObservable(): Observable<string> {
+        return new Observable(subscriber => {
+            this.loggedUserSubscriber = subscriber;
+            subscriber.next(this.user);
+        });
+    }
 
     signup(registrationUser: RegistrationUser): Observable<any> {
 
@@ -80,19 +108,22 @@ export class UsersService {
 
 
                 this.token = token;
-
+                //  this.activeLogin = auth.login;
+                this.user = auth.login;
 
                 console.log(` askking for token ` + this.token);
-
-                // @ts-ignore
                 //this.token("hello");
-                this.user = auth.login;
                 this.loginForApi = auth.login;
                 this.messageService.sendMessage(`Nahlásenie používateľa ${auth.login} ${token} úspešné`, false);
                 return true;
             }),
             catchError(error => {
                 //     this.logout();
+
+                // @ts-ignore
+                this.user = null;
+                // @ts-ignore
+                this.token = null;
                 console.log(" error from login" + error);
                 console.log(" error from login" + error.toString());
                 console.log(" error from login" + JSON.stringify(error));
@@ -103,6 +134,12 @@ export class UsersService {
         );
     }
 
+    logout() {
+        // @ts-ignore
+        this.token = null;
+        // @ts-ignore
+        this.user = null;
+    }
     getLoginHistory(): Observable<any> {
 
         let httpHeaders = new HttpHeaders(
@@ -147,6 +184,7 @@ export class UsersService {
         return itemsHistoryFromServer.map(item => new ItemHistory(item.datetime, item.type, item.login));
     }
 
+
     processHttpError(error) {
         console.log(error);
 
@@ -167,6 +205,9 @@ export class UsersService {
                 }
             }
         } else {
+            console.log("error from server " + error);
+            console.log(error);
+            
             this.messageService.sendMessage("Chyba programátora : " + JSON.stringify(error));
         }
         console.error("Chyba zo servera: ", error);
