@@ -46,6 +46,10 @@ export class UsersService {
         }
     }
 
+    private get token(): string {
+        // @ts-ignore
+        return localStorage.getItem('token');
+    }
 
     set user(value: string) {
         this.loggedUserSubscriber.next(value);
@@ -64,10 +68,7 @@ export class UsersService {
 
     }
 
-    private get token(): string {
-        // @ts-ignore
-        return localStorage.getItem('token');
-    }
+
 
     getUserObservable(): Observable<string> {
         return new Observable(subscriber => {
@@ -150,10 +151,12 @@ export class UsersService {
 
 
         console.log('getLogin history token is ' + this.token);
+        console.log('login' + this.token);
+        
 
         httpHeaders = httpHeaders.set('Authorization', this.token);
 
-        const body = JSON.stringify({login: this.loginForApi});
+        const body = JSON.stringify({login: this.user});
 
 
         return this.http.post<Array<any>>(this.serverUrl + "log", body, {headers: httpHeaders}).pipe(

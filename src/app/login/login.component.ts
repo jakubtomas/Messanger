@@ -48,13 +48,12 @@ export class LoginComponent implements OnInit {
                } );*/
     }
 
-    /*  canDeactivate(): boolean | Observable<boolean> {
-        console.log("Deactivate guard v login komponente použitý");
-        if (this.originalAuth.name === this.auth.name &&
-            this.originalAuth.password === this.auth.password)
-          return true;
-        if (this.submitted)
-          return true;
-        return window.confirm("Vyplnili ste údaje. Naozaj chcete odísť?");
-      }*/
+    /*writeM(value:string):void {
+
+        console.log('writeM' + value);
+
+    }*/
+
+
+
 }
