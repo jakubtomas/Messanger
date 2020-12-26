@@ -3,6 +3,7 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {UsersService} from "../../services/users.service";
 import {RegistrationUser} from "./registrationUser";
+import {debounce} from "lodash-es";
 
 @Component({
     selector: 'signup',
@@ -12,6 +13,7 @@ import {RegistrationUser} from "./registrationUser";
 export class SignupComponent implements OnInit {
 
     public password2: string = '';
+    public pswdMessage: string = '';
     public value: string = '';
     public error: string = '';
     registrationUser = new RegistrationUser();
@@ -50,10 +52,34 @@ export class SignupComponent implements OnInit {
                     console.log(data);
                     console.log("Json stringifz data  " + JSON.stringify(data));
 
-                    this.value = data
+                this.value = data;
+
+                if (data) {
+                    this.router.navigateByUrl("/login");
+                }
                 // todo  when account successfully created do redirectAfterRegistration to Login component
                 // this.router.navigateByUrl(this.userService.redirectAfterLogin);
                 }
             );
     }
+
+    writingPassword() {
+
+    }
+
+    confirmPassword = debounce((): void => {
+
+        console.log('first password   ' + this.registrationUser.password);
+        console.log("second password   " + this.password2);
+
+        if (this.registrationUser.password !== this.password2) {
+            this.pswdMessage = 'Passwords must match';
+        } else {
+            this.pswdMessage = '';
+        }
+
+
+    }, 300);
+
+
 }

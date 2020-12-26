@@ -19,6 +19,7 @@ import {ItemHistory} from "../entities/itemHistory";
 export class UsersService {
 
     loginForApi: string = '';
+    //public redirectAfterLogin =  this.defaultRedirect;
 
 
     private serverUrl = "http://localhost:8080/";
@@ -140,6 +141,8 @@ export class UsersService {
         this.token = null;
         // @ts-ignore
         this.user = null;
+
+        //todo okey but you should also delete token from database not only frontend
     }
     getLoginHistory(): Observable<any> {
 

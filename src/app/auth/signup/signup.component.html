@@ -16,34 +16,60 @@
             <p>registrationUser: {{printAuth}}  <br> Second pswd{{password2}}</p> <!--todo to production delete-->
             <div class="card">
                 <div class="card-body">
-                    <form (ngSubmit)="onSubmit()">
+
+                    <form (ngSubmit)="onSubmit()" #signUpForm="ngForm">
                         <div class="form-group">
-                            fname:
+                            First Name:
                             <input type="text" class="form-control" name="fname"
-                                   [(ngModel)]="registrationUser.fname">
+                                   [(ngModel)]="registrationUser.fname" required #fname="ngModel">
+
+                            <p><span [hidden]="fname.valid  || fname.pristine" class="small  alert-danger">First name required</span>
+                            </p>
                         </div>
+
+
                         <div class="form-group">
-                            lname:
+                            Last Name :
                             <input type="text" class="form-control" name="lname"
-                                   [(ngModel)]="registrationUser.lname">
+                                   [(ngModel)]="registrationUser.lname" required #lname="ngModel">
+                            <p><span [hidden]="lname.valid  || lname.pristine" class="small  alert-danger">Last name required </span>
+                            </p>
                         </div>
+
+
                         <div class="form-group">
                             login
                             <input type="text" class="form-control" name="login"
-                                   [(ngModel)]="registrationUser.login">
+                                   [(ngModel)]="registrationUser.login" required #login="ngModel">
+                            <p><span [hidden]="login.valid  || login.pristine" class="small  alert-danger">Login required</span>
+                            </p>
                         </div>
 
                         <div class="form-group">
                             password
                             <input type="password" class="form-control" name="password"
-                                   [(ngModel)]="registrationUser.password">
+                                   [(ngModel)]="registrationUser.password" required #password="ngModel"
+                                   (input)="confirmPassword()">
+
+                            <p><span [hidden]="password.valid  || password.pristine" class="small  alert-danger">Password required </span>
+
                         </div>
+
+
                         <div class="form-group">
                             repeat password
-                            <input type="password" class="form-control" name="password"
-                                   [(ngModel)]="password2">
+                            <input type="password" class="form-control" name="password2"
+                                   [(ngModel)]="password2" required #secondPassword="ngModel"
+                                   (input)="confirmPassword()">
+
+                            <p><span [hidden]="secondPassword.valid  || secondPassword.pristine "
+                                     class="small  alert-danger">Repeat Password required </span>
+                            <p *ngIf="pswdMessage"><span class="small  alert-danger"> Password must match </span></p>
                         </div>
-                        <button type="submit" id="sendlogin" class="btn btn-primary">Create Account</button>
+
+                        <button type="submit" id="sendlogin" class="btn btn-primary"
+                                [disabled]="!signUpForm.form.valid">Create Account
+                        </button>
                     </form>
                 </div>
             </div>
