@@ -1,0 +1,26 @@
+<h2>HISTORY Login/logout</h2>
+<div class="container">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-6">
+            <table *ngIf="dataFromService" class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">dateTime</th>
+                    <th scope="col">type</th>
+                    <th scope="col">login</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr *ngFor="let item of items">
+                    <td>{{item.datetime}}</td>
+                    <td>{{item.type}}</td>
+                    <td>{{item.login}}</td>
+                </tr>
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>

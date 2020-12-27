@@ -1,0 +1,25 @@
+<p>messages works!</p>
+
+
+<h3>list of users where after click will show
+    messages ,, possibility to add new message </h3>
+
+<p>{{users}}</p>
+<div class="container-fluid">
+    <h1>Hello World!</h1>
+    <div class="row">
+        <div class="col-sm-3" style="background-color:yellow;">
+
+            <div class="list-group">
+
+                <a *ngFor="let user of users" class="list-group-item list-group-item-action" (click)="getMessage(user)">
+                    {{user}}
+                </a>
+
+            </div>
+        </div>
+        <div class="col-sm-9" style="background-color:pink;">
+            <p>Sed ut perspiciatis...</p>
+        </div>
+    </div>
+</div>

@@ -155,7 +155,7 @@ export class UsersService {
 
         console.log('getLogin history token is ' + this.token);
         console.log('login' + this.token);
-        
+
 
         httpHeaders = httpHeaders.set('Authorization', this.token);
 
@@ -189,6 +189,97 @@ export class UsersService {
     mapToItemHistory(itemsHistoryFromServer: Array<any>): ItemHistory[] {
         return itemsHistoryFromServer.map(item => new ItemHistory(item.datetime, item.type, item.login));
     }
+
+
+    getAllUsers(): Observable<any> {
+
+        let httpHeaders = new HttpHeaders(
+            {
+                'Content-Type': 'application/json',
+                'Authorization': 'my-auth-token'
+            });
+
+
+        console.log('Get ALL Users token' + this.token);
+        console.log(this.token);
+
+
+        httpHeaders = httpHeaders.set('Authorization', this.token);
+
+        const body = JSON.stringify({login: this.user});
+
+
+        return this.http.post<Array<any>>(this.serverUrl + "users", body, {headers: httpHeaders}).pipe(
+            map(allUsers => {
+                console.log(allUsers);
+                console.log("data from GetLoginHistory" + allUsers);
+                console.log("data from GetLoginHistory" + JSON.stringify(allUsers));
+
+                return allUsers;
+
+
+                //return itemsHistory;
+            }),
+            catchError(error => {
+                //     this.logout();
+                console.log(" error from GetLoginHistory" + error);
+                console.log(" error from GetLoginHistory" + error.toString());
+                console.log(" error from GetLoginHistory" + JSON.stringify(error));
+
+
+                return this.processHttpError(error);
+            })
+        );
+
+    }
+
+    // todo  new function getMessagesFromUser
+    getMessagesFromUser(user: string): Observable<any> {
+
+        let httpHeaders = new HttpHeaders(
+            {
+                'Content-Type': 'application/json',
+                'Authorization': 'my-auth-token'
+            });
+
+
+        console.log('Get ALL Users token' + this.token);
+        console.log(this.token);
+
+
+        httpHeaders = httpHeaders.set('Authorization', this.token);
+
+        //todo how are input parameters for JSON and output
+        // check the postman for one message and also how to send message to another user
+        // which input data are necessary for request
+
+        const body = JSON.stringify({login: this.user});
+
+        return this.http.post<Array<any>>(this.serverUrl + "users", body, {headers: httpHeaders}).pipe(
+            map(allUsers => {
+                console.log(allUsers);
+                console.log("data from GetLoginHistory" + allUsers);
+                console.log("data from GetLoginHistory" + JSON.stringify(allUsers));
+
+                return allUsers;
+
+
+                //return itemsHistory;
+            }),
+            catchError(error => {
+                //     this.logout();
+                console.log(" error from GetLoginHistory" + error);
+                console.log(" error from GetLoginHistory" + error.toString());
+                console.log(" error from GetLoginHistory" + JSON.stringify(error));
+
+
+                return this.processHttpError(error);
+            })
+        );
+
+    }
+
+
 
 
     processHttpError(error) {

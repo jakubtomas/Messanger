@@ -37,6 +37,8 @@ export class LoginComponent implements OnInit {
         console.log(this.auth);
         this.userService.login(this.auth).subscribe()
 
+        //todo redirect to messages or profile
+
         /*   this.userService.login(this.auth).subscribe(
                success => {
                  if (success) {
