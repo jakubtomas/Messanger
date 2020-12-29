@@ -4,11 +4,12 @@ import {EMPTY, Observable, of, Subscriber, throwError} from "rxjs";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {RegistrationUser} from "../auth/signup/registrationUser";
 import {MessageService} from "./message.service";
-import {catchError, map} from "rxjs/operators";
+import {catchError, map, mapTo} from 'rxjs/operators';
 import {Auth} from "../entities/auth";
 import {HttpHeaders} from '@angular/common/http';
 import {getToken} from "codelyzer/angular/styles/cssLexer";
 import {ItemHistory} from "../entities/itemHistory";
+import {MyUser} from '../entities/user';
 
 
 /// anotacia ma sa tento servis brat do uvahz
@@ -190,6 +191,56 @@ export class UsersService {
         return itemsHistoryFromServer.map(item => new ItemHistory(item.datetime, item.type, item.login));
     }
 
+  editUser(user: MyUser): Observable<any> {
+    let httpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorisation: 'token'
+    });
+
+    httpHeaders = httpHeaders.set('Authorization', this.token);
+    const requestBody = JSON.stringify({
+      login: user.login,
+      fname: user.fName,
+      lname: user.lName
+    });
+
+    return this.http.patch<Array<any>>(this.serverUrl + 'update', requestBody, {headers: httpHeaders}).pipe(
+      mapTo(true),
+      catchError(error => {
+
+        console.log(' error from GetLoginHistory' + error);
+        console.log(' error from GetLoginHistory' + error.toString());
+        console.log(' error from GetLoginHistory' + JSON.stringify(error));
+
+        return this.processHttpError(error);
+      })
+    );
+  }
+
+  getUser(): Observable<any> {
+    let httpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      token: 'token'
+    });
+
+    httpHeaders = httpHeaders.set('token', this.token);
+    const requestBody = JSON.stringify({login: this.user});
+
+    return this.http.post<Array<any>>(this.serverUrl + 'user', requestBody, {headers: httpHeaders}).pipe(
+      map(user => {
+        console.log(user);
+        return user;
+      }),
+      catchError(error => {
+        //     this.logout();
+        console.log(' error from GetLoginHistory' + error);
+        console.log(' error from GetLoginHistory' + error.toString());
+        console.log(' error from GetLoginHistory' + JSON.stringify(error));
+
+        return this.processHttpError(error);
+      })
+    );
+  }
 
     getAllUsers(): Observable<any> {
 
@@ -304,12 +355,10 @@ export class UsersService {
         } else {
             console.log("error from server " + error);
             console.log(error);
-            
+
             this.messageService.sendMessage("Chyba programátora : " + JSON.stringify(error));
         }
         console.error("Chyba zo servera: ", error);
         return EMPTY;
     }
-
-
 }
