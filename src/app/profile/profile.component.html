@@ -1,16 +1,25 @@
-<table>
-  <tr>
-    <th>First Name</th>
-    <td>{{user.fName}}</td>
-  </tr>
-  <tr>
-    <th>Last Name</th>
-    <td>{{user.lName}}</td>
-  </tr>
-  <tr>
-    <th>Login</th>
-    <td>{{user.login}}</td>
-  </tr>
-</table>
-
-<button (click)="editUser()">Edit</button>
+<mat-card class="profile-card">
+  <div class="header">
+    <mat-icon>face</mat-icon>
+    <div class="header-text">Your profile</div>
+  </div>
+  <mat-card-content>
+    <table>
+      <tr>
+        <th>First Name</th>
+        <td>{{user.fName}}</td>
+      </tr>
+      <tr>
+        <th>Last Name</th>
+        <td>{{user.lName}}</td>
+      </tr>
+      <tr>
+        <th>Login</th>
+        <td>{{user.login}}</td>
+      </tr>
+    </table>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button (click)="editUser()">EDIT</button>
+  </mat-card-actions>
+</mat-card>

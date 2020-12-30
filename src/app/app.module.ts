@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { MaterialModule } from '../modules/material.module';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -15,6 +16,7 @@ import {MessageComponent} from './message/message.component';
 import {LoginHistoryComponent} from './login-history/login-history.component';
 import {ProfileComponent} from './profile/profile.component';
 import {MessagesComponent} from './messages/messages.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -24,18 +26,20 @@ import {MessagesComponent} from './messages/messages.component';
     NavbarComponent,
     PageNotFoundComponent,
     RegistrationComponent,
-      SignupComponent,
-      MessageComponent,
-      LoginHistoryComponent,
-      ProfileComponent,
-      MessagesComponent
+    SignupComponent,
+    MessageComponent,
+    LoginHistoryComponent,
+    ProfileComponent,
+    MessagesComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    MaterialModule
   ],
   providers: [],
   bootstrap: [AppComponent]
