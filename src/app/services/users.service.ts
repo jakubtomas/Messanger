@@ -9,6 +9,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { ItemHistory } from '../entities/itemHistory';
 import { MyUser } from '../entities/user';
 import {Router} from '@angular/router';
+import {SnackbarService} from './snackbar.service';
 
 
 // anotacia ma sa tento servis brat do uvahz
@@ -18,45 +19,45 @@ import {Router} from '@angular/router';
 })
 export class UsersService {
 
-    loginForApi = '';
-    public redirectAfterLogin;
-    private defaultRedirect = '/messages';
+  loginForApi = '';
+  public redirectAfterLogin;
+  private defaultRedirect = '/messages';
 
-    private serverUrl = 'http://localhost:8080/';
-    public activeLogin = '';
-    // @ts-ignore
-    private loggedUserSubscriber: Subscriber<string>;
+  private serverUrl = 'http://localhost:8080/';
+  public activeLogin = '';
+  // @ts-ignore
+  private loggedUserSubscriber: Subscriber<string>;
 
-    constructor(private http: HttpClient, private messageService: MessageService, private router: Router) {
-        // this.loggedUserSubscriber = '';
-        //  this.loggedUserSubscriber.next('');
-    }
+  constructor(private http: HttpClient, private messageService: MessageService, private router: Router, private snackbarService: SnackbarService) {
+      // this.loggedUserSubscriber = '';
+      //  this.loggedUserSubscriber.next('');
+  }
 
   public setDefaultRedirect(): void {
     this.redirectAfterLogin = this.defaultRedirect;
   }
 
-    set token(value: string) {
-        if (value) {
-            localStorage.setItem('token', value);
-            // this.httpOptions.headers = this.httpOptions.headers.set('Authorization', value);
-        } else {
-            localStorage.removeItem('token');
-        }
+  set token(value: string) {
+    if (value) {
+        localStorage.setItem('token', value);
+        // this.httpOptions.headers = this.httpOptions.headers.set('Authorization', value);
+    } else {
+        localStorage.removeItem('token');
     }
+  }
 
-    get token(): string {
-        return localStorage.getItem('token') as string;
-    }
+  get token(): string {
+      return localStorage.getItem('token') as string;
+  }
 
-    set user(value: string) {
-        this.loggedUserSubscriber.next(value);
-        if (value) {
-            localStorage.setItem('user', value);
-        } else {
-            localStorage.removeItem('user');
-        }
-    }
+  set user(value: string) {
+      this.loggedUserSubscriber.next(value);
+      if (value) {
+          localStorage.setItem('user', value);
+      } else {
+          localStorage.removeItem('user');
+      }
+  }
 
     get user() {
         //  this.loggedUserSubscriber.next(value);
@@ -94,40 +95,39 @@ export class UsersService {
     }
 
 
-    login(auth: Auth): Observable<boolean | void> {
-        return this.http.post(this.serverUrl + 'login', auth, {responseType: 'text'}).pipe(
-            map(token => {
-                console.log(token);
-                console.log('data is in login ' + token);
-                console.log('Login data user.service' + JSON.stringify(token));
+  login(auth: Auth): Observable<boolean | void> {
+    return this.http.post(this.serverUrl + 'login', auth, {responseType: 'text'}).pipe(
+      map(token => {
+        console.log(token);
+        console.log('data is in login ' + token);
+        console.log('Login data user.service' + JSON.stringify(token));
 
-                this.token = token;
-                //  this.activeLogin = auth.login;
-                this.user = auth.login;
+        this.token = token;
+        //  this.activeLogin = auth.login;
+        this.user = auth.login;
 
-                console.log(` askking for token ` + this.token);
-                // this.token("hello");
-                this.loginForApi = auth.login;
-                this.messageService.sendMessage(`Nahlásenie používateľa ${auth.login} ${token} úspešné`, false);
-                this.router.navigateByUrl(this.defaultRedirect);
-                return true;
-            }),
-            catchError(error => {
-                //     this.logout();
+        console.log(` askking for token ` + this.token);
+        // this.token("hello");
+        this.loginForApi = auth.login;
+        // this.messageService.sendMessage(`Welcome ${auth.login}, login successful`, false);
+        this.snackbarService.successMsg(`Welcome ${auth.login}, login successful`);
+        this.router.navigateByUrl(this.defaultRedirect);
+        return true;
+      }),
+      catchError(error => {
+        //     this.logout();
 
-                // @ts-ignore
-                this.user = null;
-                // @ts-ignore
-                this.token = null;
-                console.log(' error from login' + error);
-                console.log(' error from login' + error.toString());
-                console.log(' error from login' + JSON.stringify(error));
-
-
-                return this.processHttpError(error);
-            })
-        );
-    }
+        // @ts-ignore
+        this.user = null;
+        // @ts-ignore
+        this.token = null;
+        console.log(' error from login' + error);
+        console.log(' error from login' + error.toString());
+        console.log(' error from login' + JSON.stringify(error));
+        return this.processHttpError(error);
+      })
+    );
+  }
 
     logout() {
         // @ts-ignore
