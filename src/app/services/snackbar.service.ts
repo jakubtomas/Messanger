@@ -22,7 +22,7 @@ export class SnackbarService {
       panelClass: 'redSnackBarAction',
       duration: 5000,
       horizontalPosition: 'center',
-      verticalPosition: 'top'
+      verticalPosition: 'bottom'
     });
   }
 }

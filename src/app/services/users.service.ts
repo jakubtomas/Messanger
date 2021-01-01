@@ -8,8 +8,8 @@ import { Auth } from '../entities/auth';
 import { HttpHeaders } from '@angular/common/http';
 import { ItemHistory } from '../entities/itemHistory';
 import { MyUser } from '../entities/user';
-import {Router} from '@angular/router';
-import {SnackbarService} from './snackbar.service';
+import { Router} from '@angular/router';
+import { SnackbarService } from './snackbar.service';
 
 
 // anotacia ma sa tento servis brat do uvahz
@@ -28,72 +28,50 @@ export class UsersService {
   // @ts-ignore
   private loggedUserSubscriber: Subscriber<string>;
 
-  constructor(private http: HttpClient, private messageService: MessageService, private router: Router, private snackbarService: SnackbarService) {
-      // this.loggedUserSubscriber = '';
-      //  this.loggedUserSubscriber.next('');
-  }
-
-  public setDefaultRedirect(): void {
-    this.redirectAfterLogin = this.defaultRedirect;
-  }
+  constructor(private http: HttpClient, private messageService: MessageService, private router: Router, private snackbarService: SnackbarService) {}
 
   set token(value: string) {
-    if (value) {
-        localStorage.setItem('token', value);
-        // this.httpOptions.headers = this.httpOptions.headers.set('Authorization', value);
-    } else {
-        localStorage.removeItem('token');
-    }
+    if (value) {localStorage.setItem('token', value);
+    } else {localStorage.removeItem('token'); }
   }
-
-  get token(): string {
-      return localStorage.getItem('token') as string;
-  }
+  get token(): string {return localStorage.getItem('token') as string;}
 
   set user(value: string) {
-      this.loggedUserSubscriber.next(value);
-      if (value) {
-          localStorage.setItem('user', value);
-      } else {
-          localStorage.removeItem('user');
-      }
+    this.loggedUserSubscriber.next(value);
+    if (value) {localStorage.setItem('user', value);
+    } else {localStorage.removeItem('user'); }
+  }
+  get user() {
+    // @ts-ignore
+    return localStorage.getItem('user');
+  }
+  getUserObservable(): Observable<string> {
+    return new Observable(subscriber => {
+      this.loggedUserSubscriber = subscriber;
+      subscriber.next(this.user);
+    });
   }
 
-    get user() {
-        //  this.loggedUserSubscriber.next(value);
+  signup(registrationUser: RegistrationUser): Observable<any> {
+    // console.log(this.httpClient.post('localhost:8080/signup', registrationUser, {responseType: 'text'}));
+    console.log('Auth.service');
 
-        //   return localStorage.getItem('user');
-        // @ts-ignore
-        return localStorage.getItem('user');
+    return this.http.post(this.serverUrl + 'signup', registrationUser, ).pipe(
+      map(data => {
+        console.log(data);
 
-    }
-
-    getUserObservable(): Observable<string> {
-        return new Observable(subscriber => {
-            this.loggedUserSubscriber = subscriber;
-            subscriber.next(this.user);
-        });
-    }
-
-    signup(registrationUser: RegistrationUser): Observable<any> {
-      // console.log(this.httpClient.post('localhost:8080/signup', registrationUser, {responseType: 'text'}));
-      console.log('Auth.service');
-
-      return this.http.post(this.serverUrl + 'signup', registrationUser, ).pipe(
-        map(data => {
-          console.log(data);
-
-          console.log(' data from pipe ' + JSON.stringify(data));
-          this.messageService.sendMessage(JSON.stringify(data), true);
-          this.router.navigateByUrl('/login');
-          return true;
-        }),
-        catchError(error => {
-          //  this.logout();
-          return this.processHttpError(error);
-        }));
-    }
-
+        console.log(' data from pipe ' + JSON.stringify(data));
+        // this.messageService.sendMessage(JSON.stringify(data), true);
+        this.snackbarService.successMsg('Registration successful');
+        this.router.navigateByUrl('/login');
+        return true;
+      }),
+      catchError(error => {
+        //  this.logout();
+        return this.processHttpError(error);
+      })
+    );
+  }
 
   login(auth: Auth): Observable<boolean | void> {
     return this.http.post(this.serverUrl + 'login', auth, {responseType: 'text'}).pipe(
