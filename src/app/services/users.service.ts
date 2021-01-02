@@ -10,6 +10,7 @@ import { ItemHistory } from '../entities/itemHistory';
 import { MyUser } from '../entities/user';
 import { Router} from '@angular/router';
 import { SnackbarService } from './snackbar.service';
+import {Message} from '../entities/message';
 
 
 // anotacia ma sa tento servis brat do uvahz
@@ -212,7 +213,7 @@ export class UsersService {
     );
   }
 
-    getAllUsers(): Observable<any> {
+  getAllUsers(): Observable<any> {
 
         let httpHeaders = new HttpHeaders(
             {
@@ -254,81 +255,65 @@ export class UsersService {
 
     }
 
-    // todo  new function getMessagesFromUser
-    getMessagesFromUser(user: string): Observable<any> {
+  getMessagesFromUser(fromUser: string): Observable<any> {
 
-        let httpHeaders = new HttpHeaders(
-            {
-                'Content-Type': 'application/json',
-                Authorization: 'my-auth-token'
-            });
+    let httpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: 'Authorization'
+    });
+    httpHeaders = httpHeaders.set('Authorization', this.token);
 
+    const body = JSON.stringify({
+      login: this.user,
+      from: fromUser,
+    });
 
-        console.log('Get ALL Users token' + this.token);
-        console.log(this.token);
+    console.log(this.user);
+    console.log(fromUser);
 
+    return this.http.post<Array<any>>(this.serverUrl + 'messages', body, {headers: httpHeaders}).pipe(
+      map(messages => {
+        console.log('GET MESSAGES ' + JSON.stringify(messages));
+        return this.mapToMessages(messages);
+      }),
+      catchError(error => {
+        console.log(' error from GetLoginHistory' + JSON.stringify(error));
+        return this.processHttpError(error);
+      })
+    );
+  }
 
-        httpHeaders = httpHeaders.set('Authorization', this.token);
-
-        // todo how are input parameters for JSON and output
-        // check the postman for one message and also how to send message to another user
-        // which input data are necessary for request
-
-        const body = JSON.stringify({login: this.user});
-
-        return this.http.post<Array<any>>(this.serverUrl + 'users', body, {headers: httpHeaders}).pipe(
-            map(allUsers => {
-                console.log(allUsers);
-                console.log('data from GetLoginHistory' + allUsers);
-                console.log('data from GetLoginHistory' + JSON.stringify(allUsers));
-
-                return allUsers;
-
-
-                // return itemsHistory;
-            }),
-            catchError(error => {
-                //     this.logout();
-                console.log(' error from GetLoginHistory' + error);
-                console.log(' error from GetLoginHistory' + error.toString());
-                console.log(' error from GetLoginHistory' + JSON.stringify(error));
+  mapToMessages(messages: Array<any>): Message[] {
+    return messages.map(item => new Message(item.from, item.message, item.to));
+  }
 
 
-                return this.processHttpError(error);
-            })
-        );
+  processHttpError(error): Observable<never> {
+    console.log(error);
 
-    }
+    if (error instanceof HttpErrorResponse) {
+      if (error.status === 0) {
+        this.messageService.sendMessage('Server unavailable');
+      } else {
+        if (error.status >= 400 && error.status < 500) {
+          const message = error.error.error
+            ? error.error.error
+            : JSON.parse(error.error).error;
+          //   const message = error.error.error ?? JSON.parse(error.error).error;
+          console.log(message);
 
-
-
-
-    processHttpError(error): Observable<never> {
-        console.log(error);
-
-        if (error instanceof HttpErrorResponse) {
-            if (error.status === 0) {
-                this.messageService.sendMessage('Server je nedostupný');
-            } else {
-                if (error.status >= 400 && error.status < 500) {
-                    const message = error.error.error
-                        ? error.error.error
-                        : JSON.parse(error.error).error;
-                    //   const message = error.error.error ?? JSON.parse(error.error).error;
-                    console.log(message);
-
-                    this.messageService.sendMessage(message);
-                } else {
-                    this.messageService.sendMessage('chyba servera: ' + error.message);
-                }
-            }
+          this.messageService.sendMessage(message);
         } else {
-            console.log('error from server ' + error);
-            console.log(error);
-
-            this.messageService.sendMessage('Chyba programátora : ' + JSON.stringify(error));
+          this.messageService.sendMessage('Server error: ' + error.message);
         }
-        console.error('Chyba zo servera: ', error);
-        return EMPTY;
+      }
+    } else {
+      console.log('Server error ' + error);
+      console.log(error);
+
+      this.messageService.sendMessage('Client error : ' + JSON.stringify(error));
     }
+    console.error('Server error: ', error);
+    return EMPTY;
+  }
 }
