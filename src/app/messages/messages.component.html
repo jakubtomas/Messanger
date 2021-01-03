@@ -11,11 +11,11 @@
       </div>
     </div>
 
-    <div class="col-sm-9" style="background-color:#7483a7;">
+    <div class="col-sm-9" style="background-color:#9f9f9f;">
       <div class="list-group">
 
         <a *ngFor="let message of messages">
-          <span *ngIf="message.from == user; else elseBlock" style="background: darkgrey">{{message.from}} | {{message.message}}</span>
+          <span *ngIf="message.from == user; else elseBlock" style="background: #c4ffb0">{{message.from}} | {{message.message}}</span>
           <ng-template #elseBlock>
             <span style="background: #7f90ff">{{message.from}} | {{message.message}}</span>
           </ng-template>
@@ -23,5 +23,21 @@
 
       </div>
     </div>
+  </div>
+</div>
+
+<div class="container-fluid row">
+  <div class="col-sm-3"></div>
+  <div class="newMessageDiv col-sm-9">
+    <form (ngSubmit)="onSubmitMessage()" #messageForm="ngForm" autocomplete="off">
+      <p>Message: {{printMessage()}}</p>
+      <div class="form-group">
+        <input type="text" class="form-control" name="message" [(ngModel)]="message.message" required minlength="1">
+      </div>
+
+      <button type="submit" id="sendMessage" class="btn btn-primary"
+        [disabled]="!messageForm.form.valid">SEND
+      </button>
+    </form>
   </div>
 </div>

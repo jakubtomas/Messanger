@@ -287,6 +287,28 @@ export class UsersService {
     return messages.map(item => new Message(item.from, item.message, item.to));
   }
 
+  newMessage(message: Message): Observable<boolean> {
+
+    let httpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: 'Authorization'
+    });
+    httpHeaders = httpHeaders.set('Authorization', this.token);
+
+    const body = JSON.stringify({
+      from: message.from,
+      to: message.to,
+      message: message.message
+    });
+
+    return this.http.post<Array<any>>(this.serverUrl + 'message/new', body, {headers: httpHeaders}).pipe(
+      map(_ => true),
+      catchError(error => {
+        console.log(' error from GetLoginHistory' + JSON.stringify(error));
+        return this.processHttpError(error);
+      })
+    );
+  }
 
   processHttpError(error): Observable<never> {
     console.log(error);

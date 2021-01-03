@@ -1,5 +1,5 @@
 export class Message {
-  constructor(
+  public constructor(
     public from: string,
     public message: string,
     public to: string,

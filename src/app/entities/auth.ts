@@ -1,4 +1,6 @@
 export class Auth {
-    public constructor(public login: string = '', public password: string = '') {
-    }
+    public constructor(
+      public login: string = '',
+      public password: string = ''
+    ) {}
 }

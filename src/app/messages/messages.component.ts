@@ -13,6 +13,7 @@ export class MessagesComponent implements OnInit {
   public users: Array<any> = [];
   public messages: Array<Message> = [];
   public user = '';
+  message = new Message(this.userService.user, '', '');
 
   constructor(private userService: UsersService) {}
 
@@ -28,10 +29,22 @@ export class MessagesComponent implements OnInit {
 
   getMessages(fromUser: any): void {
     console.log('fromUser ' + fromUser);
+    this.message.to = fromUser;
 
     this.userService.getMessagesFromUser(fromUser).subscribe(messages => {
       this.messages = messages;
       console.log(this.messages);
+    });
+  }
+
+  printMessage(): string {
+    return JSON.stringify(this.message);
+  }
+
+  onSubmitMessage(): void {
+    this.userService.newMessage(this.message).subscribe(() => {
+      this.getMessages(this.message.to);
+      this.message = new Message(this.userService.user, '', '');
     });
   }
 }
