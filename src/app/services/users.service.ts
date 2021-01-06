@@ -114,7 +114,7 @@ export class UsersService {
         // @ts-ignore
         this.user = null;
 
-        // todo okey but you should also delete token from database not only frontend
+        // todo  okey but you should also delete token from database not only frontend
     }
     getLoginHistory(): Observable<any> {
 

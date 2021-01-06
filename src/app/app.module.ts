@@ -17,6 +17,7 @@ import {LoginHistoryComponent} from './login-history/login-history.component';
 import {ProfileComponent} from './profile/profile.component';
 import {MessagesComponent} from './messages/messages.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {UserEditComponent} from './user-edit/user-edit.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MessageComponent,
     LoginHistoryComponent,
     ProfileComponent,
-    MessagesComponent
+      MessagesComponent,
+      UserEditComponent
   ],
   imports: [
     BrowserModule,
