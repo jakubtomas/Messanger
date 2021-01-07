@@ -9,23 +9,25 @@ import {UsersService} from '../services/users.service';
 })
 export class ProfileComponent implements OnInit {
 
-  public user: MyUser = new MyUser('', '', '');
+    public user: MyUser = new MyUser('', '', '');
 
-  constructor(private usersService: UsersService) {}
+    constructor(private usersService: UsersService) {
+    }
 
-  ngOnInit(): void {
-    this.usersService.getUser().subscribe(user => {
-      this.user = new MyUser(
-        user.fname,
-        user.lname,
-        user.login,
-        user.password
-      );
-    });
-  }
+    ngOnInit(): void {
+        this.usersService.getUser().subscribe(user => {
+            this.user = new MyUser(
+                user.fname,
+                user.lname,
+                user.login,
+                user.password
+            );
+        });
+    }
 
-  editUser(): void {
-    const tempUser = new MyUser('Miro', 'Test', this.user.login, this.user.password);
-    this.usersService.editUser(tempUser).subscribe();
-  }
+    editUser(): void {
+        const tempUser = new MyUser('Miro', 'Test', this.user.login, this.user.password);
+        this.usersService.editUser(tempUser).subscribe();
+    }
+
 }

@@ -287,7 +287,8 @@ export class UsersService {
     return messages.map(item => new Message(item.from, item.message, item.to));
   }
 
-  newMessage(message: Message): Observable<boolean> {
+
+    newMessage(message: Message): Observable<boolean> {
 
     let httpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -310,7 +311,8 @@ export class UsersService {
     );
   }
 
-  processHttpError(error): Observable<never> {
+
+    processHttpError(error): Observable<never> {
     console.log(error);
 
     if (error instanceof HttpErrorResponse) {
