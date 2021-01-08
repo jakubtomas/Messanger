@@ -38,6 +38,8 @@ export class UsersService {
   get token(): string {return localStorage.getItem('token') as string;}
 
   set user(value: string) {
+      console.log("set user" + value);
+      
     this.loggedUserSubscriber.next(value);
     if (value) {localStorage.setItem('user', value);
     } else {localStorage.removeItem('user'); }
@@ -168,6 +170,8 @@ export class UsersService {
         Authorization: 'token'
     });
 
+      console.log("edit user datat " + user.lName);
+
     httpHeaders = httpHeaders.set('Authorization', this.token);
     const requestBody = JSON.stringify({
       login: user.login,
@@ -194,8 +198,12 @@ export class UsersService {
       token: 'token'
     });
 
+
     httpHeaders = httpHeaders.set('token', this.token);
     const requestBody = JSON.stringify({login: this.user});
+
+      console.log("get User data" + this.user);
+    
 
     return this.http.post<Array<any>>(this.serverUrl + 'user', requestBody, {headers: httpHeaders}).pipe(
       map(user => {

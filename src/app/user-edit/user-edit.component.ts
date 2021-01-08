@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {User} from "../entities/users";
 import {MyUser} from "../entities/user";
 import {UsersService} from "../services/users.service";
@@ -14,9 +14,12 @@ declare var $: any;
 })
 export class UserEditComponent implements OnInit {
     @Output('saved') saved$ = new EventEmitter<MyUser>();
+
     // vytvorim si prazdneho pouzivatela aby sa my mohli previazat data do tohto Usera
 
-    //public  user: MyUserUser = new User("","");
+    //public  user: M
+    //
+    // yUserUser = new User("","");
 
     public user: MyUser = new MyUser('', '', '');
 
@@ -32,7 +35,6 @@ export class UserEditComponent implements OnInit {
                 user.fname,
                 user.lname,
                 user.login,
-                user.password
             );
         });
     }
@@ -48,10 +50,6 @@ export class UserEditComponent implements OnInit {
 
         this.saved$.emit(this.user);
         $("#edit-user-modal").modal('hide');
-
-        // todo create api send data to user service and create function  updateProfile
-        // todo user Event Emitter send data to parent where you will work with api
-        // todo after successfully changed data close the modal dialog
 
     }
 }
