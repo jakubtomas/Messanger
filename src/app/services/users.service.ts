@@ -165,7 +165,7 @@ export class UsersService {
   editUser(user: MyUser): Observable<any> {
     let httpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
-      Authorisation: 'token'
+        Authorization: 'token'
     });
 
     httpHeaders = httpHeaders.set('Authorization', this.token);

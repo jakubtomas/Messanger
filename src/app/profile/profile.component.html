@@ -23,4 +23,4 @@
     <button type="button" mat-button data-toggle="modal" data-target="#edit-user-modal">EDIT</button>
   </mat-card-actions>
 </mat-card>
-<app-user-edit></app-user-edit>
+<app-user-edit (saved)="updateUser($event)"></app-user-edit>
