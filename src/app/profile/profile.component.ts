@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {MyUser} from '../entities/user';
 import {UsersService} from '../services/users.service';
-import {MessageService} from "../services/message.service";
+import {SnackbarService} from '../services/snackbar.service';
 
 @Component({
     selector: 'app-profile',
@@ -12,8 +12,7 @@ export class ProfileComponent implements OnInit {
 
     public user: MyUser = new MyUser('', '', '');
 
-    constructor(private usersService: UsersService,
-                private messageService: MessageService) {
+    constructor(private usersService: UsersService, private snackbarService: SnackbarService) {
     }
 
     ngOnInit(): void {
@@ -31,22 +30,19 @@ export class ProfileComponent implements OnInit {
         });
     }
 
-    updateUser(user: MyUser) {
-        console.log("function updateUser profile component");
+    updateUser(user: MyUser): void {
+        console.log('function updateUser profile component');
 
         this.usersService.editUser(user).subscribe(data => {
-            console.log("data after edit user" + data);
+            console.log('data after edit user' + data);
 
             if (data) {
                 this.usersService.user = user.login;
                 this.getUser(); // refresh data in component
-                this.messageService.sendMessage("Your profile information has been changed successfully!");
+                this.snackbarService.successMsg('Your profile information has been changed successfully!');
             } else {
-                this.messageService.sendMessage("Your profile information not been changed successfully!");
-
+                this.snackbarService.errorMsg('Profile edit unsuccessful!');
             }
-        })
-        
+        });
     }
-
 }

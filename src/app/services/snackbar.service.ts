@@ -10,7 +10,7 @@ export class SnackbarService {
 
   successMsg(msg: string): void {
     this.snackbar.open(msg, 'OK', {
-      panelClass: 'greenSnackBarAction',
+      panelClass: ['greenSnackBarAction'],
       duration: 3000,
       horizontalPosition: 'center',
       verticalPosition: 'bottom'
@@ -19,7 +19,7 @@ export class SnackbarService {
 
   errorMsg(msg: string): void {
     this.snackbar.open(msg, 'OK', {
-      panelClass: 'redSnackBarAction',
+      panelClass: ['redSnackBarAction'],
       duration: 5000,
       horizontalPosition: 'center',
       verticalPosition: 'bottom'

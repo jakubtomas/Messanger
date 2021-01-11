@@ -1,27 +1,24 @@
-<h3>list of users where after click will show messages ,, possibility to add new message </h3>
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-sm-3" style="background-color:#415346;">
-      <div class="list-group">
+<div class="container-fluid row">
+  <div class="col-sm-3" style="background-color:#415346;">
+    <div class="list-group">
 
-        <a *ngFor="let user of users" class="list-group-item list-group-item-action" (click)="getMessages(user)">
-          {{user}}
-        </a>
+      <a *ngFor="let user of users" class="list-group-item list-group-item-action" (click)="getMessages(user)">
+        {{user}}
+      </a>
 
-      </div>
     </div>
+  </div>
 
-    <div class="col-sm-9" style="background-color:#9f9f9f;">
-      <div class="list-group">
+  <div class="col-sm-9" style="background-color:#9f9f9f;">
+    <div class="list-group">
 
-        <a *ngFor="let message of messages">
-          <span *ngIf="message.from == user; else elseBlock" style="background: #c4ffb0">{{message.from}} | {{message.message}}</span>
-          <ng-template #elseBlock>
-            <span style="background: #7f90ff">{{message.from}} | {{message.message}}</span>
-          </ng-template>
-        </a>
+      <a *ngFor="let message of messages">
+        <span *ngIf="message.from == user; else elseBlock" style="background: #c4ffb0">{{message.from}} | {{message.message}}</span>
+        <ng-template #elseBlock>
+          <span style="background: #7f90ff">{{message.from}} | {{message.message}}</span>
+        </ng-template>
+      </a>
 
-      </div>
     </div>
   </div>
 </div>

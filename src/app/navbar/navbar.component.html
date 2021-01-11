@@ -1,5 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <a class="navbar-brand" routerLink="/users">Messenger App</a>
+    <img class="logo" src="../../assets/images/logo.png" alt="MessageBook" routerLink="/messages">
+    <a class="navbar-brand" routerLink="/messages">Messenger App</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse"
             data-target="#navbarText" aria-controls="navbarText"
             aria-expanded="false" aria-label="Toggle navigation">
@@ -8,33 +9,37 @@
     <div class="collapse navbar-collapse" id="navbarText">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item" routerLinkActive="active">
-                <a class="nav-link" routerLink="/messages">Messages</a>
+                <a class="nav-link box" routerLink="/messages">Messages</a>
             </li>
             <li class="nav-item" routerLinkActive="active">
-                <a class="nav-link" routerLink="/users">Users</a>
+                <a class="nav-link box" routerLink="/users">Users</a>
             </li>
             <li class="nav-item" routerLinkActive="active">
-                <a class="nav-link" routerLink="/loginHistory">History Login</a>
+                <a class="nav-link box" routerLink="/loginHistory">History</a>
             </li>
             <li class="nav-item" routerLinkActive="active">
-                <a class="nav-link" routerLink="/profile">Profile</a>
+                <a class="nav-link box" routerLink="/profile">Profile</a>
             </li>
-
         </ul>
 
         <span class="navbar-text" *ngIf="activeLogin; else elseBlock">
-                <strong>{{activeLogin}}</strong> (<a routerLink="/login" (click)="logout()">odhlásiť</a>)
-              </span>
+            <strong><a class="nav-link login" routerLink="/profile">{{activeLogin}}</a></strong>
+            <mat-icon routerLink="/login" (click)="logout()">logout</mat-icon>
+        </span>
+
+        <!--<span class="navbar-text" *ngIf="activeLogin; else elseBlock">
+            <strong class="nav-link">{{activeLogin}}</strong>
+            <a><mat-icon routerLink="/login" (click)="logout()">logout</mat-icon></a>
+        </span>-->
         <ng-template #elseBlock>
-                <span class="navbar-text">
-                    <a class="nav-link" routerLink="/login">Login</a>
-                </span>
             <span class="navbar-text">
-                    <a class="nav-link" routerLink="/signup">SignUP</a>
-                </span>
-
-
+                <mat-icon>login</mat-icon>
+                <a class="nav-link" routerLink="/login">Login</a>
+            </span>
+            <span class="navbar-text">
+                <mat-icon>person_add</mat-icon>
+                <a class="nav-link" routerLink="/signup">SignUp</a>
+            </span>
         </ng-template>
-
     </div>
 </nav>

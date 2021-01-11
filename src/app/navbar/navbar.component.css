@@ -1,0 +1,36 @@
+.logo {
+  max-height: 50px;
+}
+mat-icon {
+  margin-left: 10px;
+  cursor: pointer;
+}
+.navbar-brand {
+  margin-left: 20px;
+  font-size: 30px;
+  font-weight: 500;
+}
+.nav-link {
+  font-size: 20px;
+}
+.navbar-text {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.login {
+  padding-right: 0;
+}
+.box {
+  transition: box-shadow .3s;
+  border-radius: 10px;
+  width: fit-content;
+}
+.box:hover {
+  box-shadow: 0 0 11px rgba(33,33,33,.2);
+}
+@media screen and (max-width: 991px) {
+  .navbar-collapse {
+    margin-top: 15px;
+  }
+}
