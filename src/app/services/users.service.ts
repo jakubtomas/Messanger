@@ -38,10 +38,10 @@ export class UsersService {
   get token(): string {return localStorage.getItem('token') as string;}
 
   set user(value: string) {
-      console.log("set user" + value);
-      
-    this.loggedUserSubscriber.next(value);
-    if (value) {localStorage.setItem('user', value);
+      console.log('set user' + value);
+
+      this.loggedUserSubscriber.next(value);
+      if (value) {localStorage.setItem('user', value);
     } else {localStorage.removeItem('user'); }
   }
   get user() {
@@ -170,7 +170,7 @@ export class UsersService {
         Authorization: 'token'
     });
 
-      console.log("edit user datat " + user.lName);
+    console.log('edit user datat ' + user.lName);
 
     httpHeaders = httpHeaders.set('Authorization', this.token);
     const requestBody = JSON.stringify({
@@ -203,7 +203,7 @@ export class UsersService {
     const requestBody = JSON.stringify({login: this.user});
 
       console.log("get User data" + this.user);
-    
+
 
     return this.http.post<Array<any>>(this.serverUrl + 'user', requestBody, {headers: httpHeaders}).pipe(
       map(user => {
@@ -264,7 +264,6 @@ export class UsersService {
     }
 
   getMessagesFromUser(fromUser: string): Observable<any> {
-
     let httpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
       Authorization: 'Authorization'
@@ -292,12 +291,11 @@ export class UsersService {
   }
 
   mapToMessages(messages: Array<any>): Message[] {
-    return messages.map(item => new Message(item.from, item.message, item.to));
+    return messages.map(item => new Message(item.from, item.message, item.to, item.time));
   }
 
 
-    newMessage(message: Message): Observable<boolean> {
-
+  newMessage(message: Message): Observable<boolean> {
     let httpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
       Authorization: 'Authorization'
@@ -320,7 +318,7 @@ export class UsersService {
   }
 
 
-    processHttpError(error): Observable<never> {
+  processHttpError(error): Observable<never> {
     console.log(error);
 
     if (error instanceof HttpErrorResponse) {

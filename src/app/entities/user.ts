@@ -4,6 +4,5 @@ export class MyUser {
     public lName: string,
     public login: string,
     public password: string = ''
-  ) {
-  }
+  ) {}
 }

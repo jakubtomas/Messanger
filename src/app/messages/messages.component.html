@@ -1,29 +1,56 @@
 <div class="container-fluid row">
-  <div class="col-sm-3" style="background-color:#415346;">
-    <div class="list-group">
 
-      <a *ngFor="let user of users" class="list-group-item list-group-item-action" (click)="getMessages(user)">
-        {{user}}
-      </a>
-
-    </div>
-  </div>
-
-  <div class="col-sm-9" style="background-color:#9f9f9f;">
-    <div class="list-group">
-
-      <a *ngFor="let message of messages">
-        <span *ngIf="message.from == user; else elseBlock" style="background: #c4ffb0">{{message.from}} | {{message.message}}</span>
-        <ng-template #elseBlock>
-          <span style="background: #7f90ff">{{message.from}} | {{message.message}}</span>
+  <div class="col-sm-3">
+    <h1 class="myFont title">Chats</h1>
+    <div class="chats">
+      <div *ngFor="let user of users" class="chat box myFont" (click)="getMessages(user)">
+        <div *ngIf="isClicked == user; else userElseBlock" class="clicked userDiv">
+          <img class="userLogo" src="../../assets/images/user.png" alt="User">
+          <span class="userName">{{user}}</span>
+        </div>
+        <ng-template #userElseBlock>
+          <div class="userDiv">
+            <img class="userLogo" src="../../assets/images/user.png" alt="User">
+            <span class="userName">{{user}}</span>
+          </div>
         </ng-template>
-      </a>
-
+      </div>
     </div>
   </div>
+
+  <div class="col-sm-9">
+    <div class="list-group">
+      <span *ngIf="messages.length == 0; else outerElseBlock" class="infoMessage">No messages yet! Try saying hello to your friends.</span>
+      <ng-template #outerElseBlock>
+        <a *ngFor="let message of messages">
+          <span *ngIf="message.from == user; else elseBlock" style="background: #c4ffb0">{{message.time}} | {{message.from}} | {{message.message}}</span>
+          <ng-template #elseBlock>
+            <span style="background: #7f90ff">{{message.time}} | {{message.from}} | {{message.message}}</span>
+          </ng-template>
+        </a>
+      </ng-template>
+    </div>
+
+    <div class="container-fluid row">
+      <div class="newMessageDiv">
+        <form (ngSubmit)="onSubmitMessage()" (keyup.enter)="onSubmitMessage()" autocomplete="off">
+          <p class="myFont">Message: {{printMessage()}}</p>
+          <div class="form-group">
+            <label>
+              <input type="text" class="form-control" placeholder="Aa" [(ngModel)]="message.message" required minlength="1">
+            </label>
+
+            <button type="submit" class="btn btn-primary">
+              <mat-icon>send</mat-icon>
+            </button>
+          </div>
+        </form>
+      </div>
+  </div>
+
 </div>
 
-<div class="container-fluid row">
+<!--<div class="container-fluid row">
   <div class="col-sm-3"></div>
   <div class="newMessageDiv col-sm-9">
     <form (ngSubmit)="onSubmitMessage()" #messageForm="ngForm" autocomplete="off">
@@ -37,4 +64,4 @@
       </button>
     </form>
   </div>
-</div>
+</div>-->

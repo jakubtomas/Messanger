@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+<nav class="navbar navbar-expand-md navbar-dark bg-primary">
     <img class="logo" src="../../assets/images/logo.png" alt="MessageBook" routerLink="/messages">
     <a class="navbar-brand" routerLink="/messages">Messenger App</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -27,18 +27,14 @@
             <mat-icon routerLink="/login" (click)="logout()">logout</mat-icon>
         </span>
 
-        <!--<span class="navbar-text" *ngIf="activeLogin; else elseBlock">
-            <strong class="nav-link">{{activeLogin}}</strong>
-            <a><mat-icon routerLink="/login" (click)="logout()">logout</mat-icon></a>
-        </span>-->
         <ng-template #elseBlock>
             <span class="navbar-text">
                 <mat-icon>login</mat-icon>
-                <a class="nav-link" routerLink="/login">Login</a>
+                <a class="nav-link padding" routerLink="/login">Login</a>
             </span>
             <span class="navbar-text">
                 <mat-icon>person_add</mat-icon>
-                <a class="nav-link" routerLink="/signup">SignUp</a>
+                <a class="nav-link padding" routerLink="/signup">SignUp</a>
             </span>
         </ng-template>
     </div>

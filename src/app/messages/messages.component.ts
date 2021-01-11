@@ -1,6 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UsersService } from '../services/users.service';
-import { Router } from '@angular/router';
 import { Message } from '../entities/message';
 
 @Component({
@@ -13,7 +12,8 @@ export class MessagesComponent implements OnInit {
   public users: Array<any> = [];
   public messages: Array<Message> = [];
   public user = '';
-  message = new Message(this.userService.user, '', '');
+  public isClicked = '';
+  message = new Message(this.userService.user, '', '', '');
 
   constructor(private userService: UsersService) {}
 
@@ -30,6 +30,7 @@ export class MessagesComponent implements OnInit {
   getMessages(fromUser: any): void {
     console.log('fromUser ' + fromUser);
     this.message.to = fromUser;
+    this.isClicked = fromUser;
 
     this.userService.getMessagesFromUser(fromUser).subscribe(messages => {
       this.messages = messages;
@@ -44,7 +45,7 @@ export class MessagesComponent implements OnInit {
   onSubmitMessage(): void {
     this.userService.newMessage(this.message).subscribe(() => {
       this.getMessages(this.message.to);
-      this.message = new Message(this.userService.user, '', '');
+      this.message = new Message(this.userService.user, '', '', '');
     });
   }
 }

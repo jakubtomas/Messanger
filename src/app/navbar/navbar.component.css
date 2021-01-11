@@ -5,10 +5,15 @@ mat-icon {
   margin-left: 10px;
   cursor: pointer;
 }
+.navbar {
+  min-height: 68px;
+}
 .navbar-brand {
   margin-left: 20px;
+  margin-right: 0;
   font-size: 30px;
   font-weight: 500;
+  padding: 0;
 }
 .nav-link {
   font-size: 20px;
@@ -17,6 +22,12 @@ mat-icon {
   display: flex;
   flex-direction: row;
   align-items: center;
+}
+.navbar-collapse {
+  margin-left: 12px;
+}
+.padding {
+  padding: 0 0 0 5px;
 }
 .login {
   padding-right: 0;
@@ -29,8 +40,18 @@ mat-icon {
 .box:hover {
   box-shadow: 0 0 11px rgba(33,33,33,.2);
 }
-@media screen and (max-width: 991px) {
+@media screen and (max-width: 768px) {
   .navbar-collapse {
     margin-top: 15px;
+  }
+}
+@media screen and (max-width: 1050px) and (min-width: 768px){
+  .navbar-brand {
+    display: none;
+  }
+}
+@media screen and (max-width: 461px){
+  .navbar-brand {
+    display: none;
   }
 }
