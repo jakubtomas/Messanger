@@ -3,8 +3,8 @@
   <div class="col-sm-3">
     <h1 class="myFont title">Chats</h1>
     <div class="chats">
-      <div *ngFor="let user of users" class="chat box myFont" (click)="getMessages(user)">
-        <div *ngIf="isClicked == user; else userElseBlock" class="clicked userDiv">
+      <div class="chat box myFont" *ngFor="let user of users" (click)="getMessages(user)">
+        <div class="clicked userDiv" *ngIf="isClicked == user; else userElseBlock">
           <img class="userLogo" src="../../assets/images/user.png" alt="User">
           <span class="userName">{{user}}</span>
         </div>
@@ -20,25 +20,31 @@
 
   <div class="col-sm-9 messages">
     <div class="list-group">
-      <span *ngIf="isClicked == ''; else mainElseBlock" class="infoMessage">Choose a person to chat with!</span>
+      <span class="infoMessage" *ngIf="isClicked == ''; else mainElseBlock">Choose a person to chat with!</span>
       <ng-template #mainElseBlock>
-        <span *ngIf="messages.length == 0; else outerElseBlock" class="infoMessage">No messages yet! Try saying hello to your friends.</span>
+        <span class="infoMessage" *ngIf="messages.length == 0; else outerElseBlock">No messages yet! Try saying hello to your friends.</span>
         <ng-template #outerElseBlock>
-          <a *ngFor="let message of messages">
-          <span *ngIf="message.from == user; else elseBlock" style="background: #c4ffb0">{{message.time}} | {{message.from}} | {{message.message}}</span>
+          <div class="message" *ngFor="let message of messages">
+            <div class="msgDiv mine" *ngIf="message.from == user; else elseBlock">
+              <span class="myFont">settings</span>
+              <div class="finalMsgFormat myMessage myFont">{{message.time}} | {{message.message}}</div>
+            </div>
             <ng-template #elseBlock>
-              <span style="background: #7f90ff">{{message.time}} | {{message.from}} | {{message.message}}</span>
+              <div class="msgDiv notMine">
+                <div class="finalMsgFormat incomingMessage myFont">{{message.time}} | {{message.message}}</div>
+                <span class="myFont">settings</span>
+              </div>
             </ng-template>
-          </a>
+          </div>
         </ng-template>
       </ng-template>
+      <div class="blank myFont" id="scrollTarget"></div>
     </div>
 
     <div class="container-fluid row messageInput">
-      <form (ngSubmit)="onSubmitMessage()" (keyup.enter)="onSubmitMessage()" autocomplete="off" class="messageInput">
-        <p class="myFont">Message: {{printMessage()}}</p>
+      <form (ngSubmit)="onSubmitMessage()" autocomplete="off" class="messageInput">
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="Aa" [(ngModel)]="message.message" required minlength="1">
+          <input type="text" name="msg" class="form-control" placeholder="message {{message.to}}" [(ngModel)]="message.message" required minlength="1">
 
           <button type="submit" class="btn btn-primary">
             <mat-icon>send</mat-icon>

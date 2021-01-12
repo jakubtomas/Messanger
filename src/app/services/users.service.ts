@@ -257,7 +257,6 @@ export class UsersService {
         console.log(' error from GetLoginHistory' + error.toString());
         console.log(' error from GetLoginHistory' + JSON.stringify(error));
 
-
         return this.processHttpError(error);
       })
     );
@@ -275,12 +274,8 @@ export class UsersService {
       from: fromUser,
     });
 
-    console.log(this.user);
-    console.log(fromUser);
-
     return this.http.post<Array<any>>(this.serverUrl + 'messages', body, {headers: httpHeaders}).pipe(
       map(messages => {
-        console.log('GET MESSAGES ' + JSON.stringify(messages));
         return this.mapToMessages(messages);
       }),
       catchError(error => {

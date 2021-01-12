@@ -9,33 +9,37 @@ import { Message } from '../entities/message';
 })
 export class MessagesComponent implements OnInit {
 
+  // TODO users that last messaged me or i messaged will be first in chats
+  // TODO if many users or messages -> scroll (edit scrollbar css)
+
+  constructor(private userService: UsersService) {}
+
   public users: Array<any> = [];
   public messages: Array<Message> = [];
   public user = '';
   public isClicked = '';
   message = new Message(this.userService.user, '', '', '');
 
-  constructor(private userService: UsersService) {}
-
   ngOnInit(): void {
-    // todo data save into the array users and show outside
     this.userService.getAllUsers().subscribe(allUsers => {
-      console.log('getAllUsers Observable' + allUsers);
-
       this.users = allUsers;
     });
     this.user = this.userService.user;
   }
 
   getMessages(fromUser: any): void {
-    console.log('fromUser ' + fromUser);
     this.message.to = fromUser;
     this.isClicked = fromUser;
+    this.message.message = '';
 
     this.userService.getMessagesFromUser(fromUser).subscribe(messages => {
       this.messages = messages;
-      console.log(this.messages);
     });
+
+    const element = document.getElementById('scrollTarget');
+    if (element) {
+      element.scrollIntoView({behavior: 'smooth', block: 'start'});
+    }
   }
 
   printMessage(): string {
@@ -43,12 +47,12 @@ export class MessagesComponent implements OnInit {
   }
 
   onSubmitMessage(): void {
-    if (this.message.message === '') {
+    if (this.message.message === '' || !this.message.to) {
       return;
     }
     this.userService.newMessage(this.message).subscribe(() => {
       this.getMessages(this.message.to);
-      this.message = new Message(this.userService.user, '', '', '');
+      this.message = new Message(this.userService.user, '', this.message.to, '');
     });
   }
 }

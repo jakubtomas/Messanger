@@ -11,4 +11,5 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 html {
   zoom: 1.2;
+  scroll-behavior: smooth;
 }

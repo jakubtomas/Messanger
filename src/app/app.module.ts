@@ -4,20 +4,20 @@ import { MaterialModule } from '../modules/material.module';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import {UsersComponent} from './users/users.component';
-import {HttpClientModule} from '@angular/common/http';
-import {LoginComponent} from './login/login.component';
-import {NavbarComponent} from './navbar/navbar.component';
-import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
-import {RegistrationComponent} from './registration/registration.component';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {SignupComponent} from './auth/signup/signup.component';
-import {MessageComponent} from './message/message.component';
-import {LoginHistoryComponent} from './login-history/login-history.component';
-import {ProfileComponent} from './profile/profile.component';
-import {MessagesComponent} from './messages/messages.component';
+import { UsersComponent } from './users/users.component';
+import { HttpClientModule } from '@angular/common/http';
+import { LoginComponent } from './login/login.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { RegistrationComponent } from './registration/registration.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SignupComponent } from './auth/signup/signup.component';
+import { MessageComponent } from './message/message.component';
+import { LoginHistoryComponent } from './login-history/login-history.component';
+import { ProfileComponent } from './profile/profile.component';
+import { MessagesComponent } from './messages/messages.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {UserEditComponent} from './user-edit/user-edit.component';
+import { UserEditComponent } from './user-edit/user-edit.component';
 
 @NgModule({
   declarations: [
@@ -31,8 +31,8 @@ import {UserEditComponent} from './user-edit/user-edit.component';
     MessageComponent,
     LoginHistoryComponent,
     ProfileComponent,
-      MessagesComponent,
-      UserEditComponent
+    MessagesComponent,
+    UserEditComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,7 +41,7 @@ import {UserEditComponent} from './user-edit/user-edit.component';
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    MaterialModule
+    MaterialModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
