@@ -1,22 +1,22 @@
-import { Injectable } from '@angular/core';
-import { EMPTY, Observable, Subscriber } from 'rxjs';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { RegistrationUser } from '../auth/signup/registrationUser';
-import { MessageService } from './message.service';
-import { catchError, map, mapTo } from 'rxjs/operators';
-import { Auth } from '../entities/auth';
-import { HttpHeaders } from '@angular/common/http';
-import { ItemHistory } from '../entities/itemHistory';
-import { MyUser } from '../entities/user';
-import { Router} from '@angular/router';
-import { SnackbarService } from './snackbar.service';
+import {Injectable} from '@angular/core';
+import {EMPTY, Observable, Subscriber} from 'rxjs';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {RegistrationUser} from '../auth/signup/registrationUser';
+import {MessageService} from './message.service';
+import {catchError, map, mapTo} from 'rxjs/operators';
+import {Auth} from '../entities/auth';
+import {HttpHeaders} from '@angular/common/http';
+import {ItemHistory} from '../entities/itemHistory';
+import {MyUser} from '../entities/user';
+import {Router} from '@angular/router';
+import {SnackbarService} from './snackbar.service';
 import {Message} from '../entities/message';
 
 
 // anotacia ma sa tento servis brat do uvahz
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 export class UsersService {
 
@@ -29,25 +29,37 @@ export class UsersService {
   // @ts-ignore
   private loggedUserSubscriber: Subscriber<string>;
 
-  constructor(private http: HttpClient, private messageService: MessageService, private router: Router, private snackbarService: SnackbarService) {}
+  constructor(private http: HttpClient, private messageService: MessageService, private router: Router, private snackbarService: SnackbarService) {
+  }
 
   set token(value: string) {
-    if (value) {localStorage.setItem('token', value);
-    } else {localStorage.removeItem('token'); }
+    if (value) {
+      localStorage.setItem('token', value);
+    } else {
+      localStorage.removeItem('token');
+    }
   }
-  get token(): string {return localStorage.getItem('token') as string;}
+
+  get token(): string {
+    return localStorage.getItem('token') as string;
+  }
 
   set user(value: string) {
-      console.log('set user' + value);
+    console.log('set user' + value);
 
-      this.loggedUserSubscriber.next(value);
-      if (value) {localStorage.setItem('user', value);
-    } else {localStorage.removeItem('user'); }
+    this.loggedUserSubscriber.next(value);
+    if (value) {
+      localStorage.setItem('user', value);
+    } else {
+      localStorage.removeItem('user');
+    }
   }
+
   get user() {
     // @ts-ignore
     return localStorage.getItem('user');
   }
+
   getUserObservable(): Observable<string> {
     return new Observable(subscriber => {
       this.loggedUserSubscriber = subscriber;
@@ -59,7 +71,7 @@ export class UsersService {
     // console.log(this.httpClient.post('localhost:8080/signup', registrationUser, {responseType: 'text'}));
     console.log('Auth.service');
 
-    return this.http.post(this.serverUrl + 'signup', registrationUser, ).pipe(
+    return this.http.post(this.serverUrl + 'signup', registrationUser,).pipe(
       map(data => {
         console.log(data);
 
@@ -110,64 +122,57 @@ export class UsersService {
     );
   }
 
-    logout() {
-        // @ts-ignore
-        this.token = null;
-        // @ts-ignore
-        this.user = null;
+  logout() {
+    // @ts-ignore
+    this.token = null;
+    // @ts-ignore
+    this.user = null;
 
-        // todo  okey but you should also delete token from database not only frontend
-    }
-    getLoginHistory(): Observable<any> {
+    // todo  okey but you should also delete token from database not only frontend
+  }
 
-        let httpHeaders = new HttpHeaders(
-            {
-                'Content-Type': 'application/json',
-                Authorization: 'my-auth-token'
-            });
+  getLoginHistory(): Observable<any> {
+    let httpHeaders = new HttpHeaders(
+      {
+        'Content-Type': 'application/json',
+        Authorization: 'my-auth-token'
+      });
 
+    console.log('getLogin history token is ' + this.token);
+    console.log('login' + this.token);
 
-        console.log('getLogin history token is ' + this.token);
-        console.log('login' + this.token);
+    httpHeaders = httpHeaders.set('Authorization', this.token);
 
+    const body = JSON.stringify({login: this.user});
 
-        httpHeaders = httpHeaders.set('Authorization', this.token);
+    return this.http.post<Array<any>>(this.serverUrl + 'log', body, {headers: httpHeaders}).pipe(
+      map(itemsHistory => {
+        console.log(itemsHistory);
+        console.log('data from GetLoginHistory' + itemsHistory);
+        console.log('data from GetLoginHistory' + JSON.stringify(itemsHistory));
 
-        const body = JSON.stringify({login: this.user});
+        return this.mapToItemHistory(itemsHistory);
+        // return itemsHistory;
+      }),
+      catchError(error => {
+        //     this.logout();
+        console.log(' error from GetLoginHistory' + error);
+        console.log(' error from GetLoginHistory' + error.toString());
+        console.log(' error from GetLoginHistory' + JSON.stringify(error));
 
+        return this.processHttpError(error);
+      })
+    );
+  }
 
-        return this.http.post<Array<any>>(this.serverUrl + 'log', body, {headers: httpHeaders}).pipe(
-            map(itemsHistory => {
-                console.log(itemsHistory);
-                console.log('data from GetLoginHistory' + itemsHistory);
-                console.log('data from GetLoginHistory' + JSON.stringify(itemsHistory));
-
-                return this.mapToItemHistory(itemsHistory);
-
-
-                // return itemsHistory;
-            }),
-            catchError(error => {
-                //     this.logout();
-                console.log(' error from GetLoginHistory' + error);
-                console.log(' error from GetLoginHistory' + error.toString());
-                console.log(' error from GetLoginHistory' + JSON.stringify(error));
-
-
-                return this.processHttpError(error);
-            })
-        );
-
-    }
-
-    mapToItemHistory(itemsHistoryFromServer: Array<any>): ItemHistory[] {
-        return itemsHistoryFromServer.map(item => new ItemHistory(item.datetime, item.type, item.login));
-    }
+  mapToItemHistory(itemsHistoryFromServer: Array<any>): ItemHistory[] {
+    return itemsHistoryFromServer.map(item => new ItemHistory(item.datetime, item.type, item.login));
+  }
 
   editUser(user: MyUser): Observable<any> {
     let httpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
-        Authorization: 'token'
+      Authorization: 'token'
     });
 
     console.log('edit user datat ' + user.lName);
@@ -198,12 +203,10 @@ export class UsersService {
       token: 'token'
     });
 
-
     httpHeaders = httpHeaders.set('token', this.token);
     const requestBody = JSON.stringify({login: this.user});
 
-      console.log('get User data' + this.user);
-
+    console.log('get User data' + this.user);
 
     return this.http.post<Array<any>>(this.serverUrl + 'user', requestBody, {headers: httpHeaders}).pipe(
       map(user => {
@@ -222,46 +225,43 @@ export class UsersService {
   }
 
   getAllUsers(): Observable<any> {
+    let httpHeaders = new HttpHeaders(
+      {
+        'Content-Type': 'application/json',
+        Authorization: 'my-auth-token'
+      });
 
-        let httpHeaders = new HttpHeaders(
-            {
-                'Content-Type': 'application/json',
-                Authorization: 'my-auth-token'
-            });
-
-
-        console.log('Get ALL Users token' + this.token);
-        console.log(this.token);
+    console.log('Get ALL Users token' + this.token);
+    console.log(this.token);
 
 
-        httpHeaders = httpHeaders.set('Authorization', this.token);
+    httpHeaders = httpHeaders.set('Authorization', this.token);
 
-        const body = JSON.stringify({login: this.user});
-
-
-        return this.http.post<Array<any>>(this.serverUrl + 'users', body, {headers: httpHeaders}).pipe(
-            map(allUsers => {
-                console.log(allUsers);
-                console.log('data from GetLoginHistory' + allUsers);
-                console.log('data from GetLoginHistory' + JSON.stringify(allUsers));
-
-                return allUsers;
+    const body = JSON.stringify({login: this.user});
 
 
-                // return itemsHistory;
-            }),
-            catchError(error => {
-                //     this.logout();
-                console.log(' error from GetLoginHistory' + error);
-                console.log(' error from GetLoginHistory' + error.toString());
-                console.log(' error from GetLoginHistory' + JSON.stringify(error));
+    return this.http.post<Array<any>>(this.serverUrl + 'users', body, {headers: httpHeaders}).pipe(
+      map(allUsers => {
+        console.log(allUsers);
+        console.log('data from GetLoginHistory' + allUsers);
+        console.log('data from GetLoginHistory' + JSON.stringify(allUsers));
+
+        return allUsers;
 
 
-                return this.processHttpError(error);
-            })
-        );
+        // return itemsHistory;
+      }),
+      catchError(error => {
+        //     this.logout();
+        console.log(' error from GetLoginHistory' + error);
+        console.log(' error from GetLoginHistory' + error.toString());
+        console.log(' error from GetLoginHistory' + JSON.stringify(error));
 
-    }
+
+        return this.processHttpError(error);
+      })
+    );
+  }
 
   getMessagesFromUser(fromUser: string): Observable<any> {
     let httpHeaders = new HttpHeaders({
@@ -294,7 +294,6 @@ export class UsersService {
     return messages.map(item => new Message(item.from, item.message, item.to, item.time));
   }
 
-
   newMessage(message: Message): Observable<boolean> {
     let httpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -316,7 +315,6 @@ export class UsersService {
       })
     );
   }
-
 
   processHttpError(error): Observable<never> {
     console.log(error);
