@@ -1,4 +1,4 @@
-<div class="container-fluid row">
+<div class="container-fluid row usersBox">
 
   <div class="col-sm-3">
     <h1 class="myFont title">Chats</h1>
@@ -18,50 +18,34 @@
     </div>
   </div>
 
-  <div class="col-sm-9">
+  <div class="col-sm-9 messages">
     <div class="list-group">
-      <span *ngIf="messages.length == 0; else outerElseBlock" class="infoMessage">No messages yet! Try saying hello to your friends.</span>
-      <ng-template #outerElseBlock>
-        <a *ngFor="let message of messages">
+      <span *ngIf="isClicked == ''; else mainElseBlock" class="infoMessage">Choose a person to chat with!</span>
+      <ng-template #mainElseBlock>
+        <span *ngIf="messages.length == 0; else outerElseBlock" class="infoMessage">No messages yet! Try saying hello to your friends.</span>
+        <ng-template #outerElseBlock>
+          <a *ngFor="let message of messages">
           <span *ngIf="message.from == user; else elseBlock" style="background: #c4ffb0">{{message.time}} | {{message.from}} | {{message.message}}</span>
-          <ng-template #elseBlock>
-            <span style="background: #7f90ff">{{message.time}} | {{message.from}} | {{message.message}}</span>
-          </ng-template>
-        </a>
+            <ng-template #elseBlock>
+              <span style="background: #7f90ff">{{message.time}} | {{message.from}} | {{message.message}}</span>
+            </ng-template>
+          </a>
+        </ng-template>
       </ng-template>
     </div>
 
-    <div class="container-fluid row">
-      <div class="newMessageDiv">
-        <form (ngSubmit)="onSubmitMessage()" (keyup.enter)="onSubmitMessage()" autocomplete="off">
-          <p class="myFont">Message: {{printMessage()}}</p>
-          <div class="form-group">
-            <label>
-              <input type="text" class="form-control" placeholder="Aa" [(ngModel)]="message.message" required minlength="1">
-            </label>
+    <div class="container-fluid row messageInput">
+      <form (ngSubmit)="onSubmitMessage()" (keyup.enter)="onSubmitMessage()" autocomplete="off" class="messageInput">
+        <p class="myFont">Message: {{printMessage()}}</p>
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Aa" [(ngModel)]="message.message" required minlength="1">
 
-            <button type="submit" class="btn btn-primary">
-              <mat-icon>send</mat-icon>
-            </button>
-          </div>
-        </form>
-      </div>
+          <button type="submit" class="btn btn-primary">
+            <mat-icon>send</mat-icon>
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
 
 </div>
-
-<!--<div class="container-fluid row">
-  <div class="col-sm-3"></div>
-  <div class="newMessageDiv col-sm-9">
-    <form (ngSubmit)="onSubmitMessage()" #messageForm="ngForm" autocomplete="off">
-      <p>Message: {{printMessage()}}</p>
-      <div class="form-group">
-        <input type="text" class="form-control" name="message" [(ngModel)]="message.message" required minlength="1">
-      </div>
-
-      <button type="submit" id="sendMessage" class="btn btn-primary"
-        [disabled]="!messageForm.form.valid">SEND
-      </button>
-    </form>
-  </div>
-</div>-->
