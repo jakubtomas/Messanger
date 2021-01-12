@@ -43,6 +43,9 @@ export class MessagesComponent implements OnInit {
   }
 
   onSubmitMessage(): void {
+    if (this.message.message === '') {
+      return;
+    }
     this.userService.newMessage(this.message).subscribe(() => {
       this.getMessages(this.message.to);
       this.message = new Message(this.userService.user, '', '', '');

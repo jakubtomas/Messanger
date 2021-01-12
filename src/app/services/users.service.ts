@@ -202,7 +202,7 @@ export class UsersService {
     httpHeaders = httpHeaders.set('token', this.token);
     const requestBody = JSON.stringify({login: this.user});
 
-      console.log("get User data" + this.user);
+      console.log('get User data' + this.user);
 
 
     return this.http.post<Array<any>>(this.serverUrl + 'user', requestBody, {headers: httpHeaders}).pipe(
