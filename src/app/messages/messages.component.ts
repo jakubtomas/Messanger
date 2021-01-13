@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UsersService } from '../services/users.service';
 import { Message } from '../entities/message';
-import {$} from 'protractor';
+import {MyUser} from '../entities/user';
 
 @Component({
     selector: 'app-messages',
@@ -16,6 +16,7 @@ export class MessagesComponent implements OnInit {
   constructor(private userService: UsersService) {}
 
   public users: Array<any> = [];
+  public objUsers: Array<MyUser> = [];
   public messages: Array<Message> = [];
   public user = '';
   public isClicked = '';
@@ -24,6 +25,11 @@ export class MessagesComponent implements OnInit {
   ngOnInit(): void {
     this.userService.getAllUsers().subscribe(allUsers => {
       this.users = allUsers;
+    });
+    this.userService.getLoggedUsers().subscribe(objUsers => {
+      this.objUsers = objUsers;
+      console.log('this this this');
+      console.log(objUsers);
     });
     this.user = this.userService.user;
   }
@@ -41,10 +47,6 @@ export class MessagesComponent implements OnInit {
     if (element) {
       element.scrollIntoView({behavior: 'smooth', block: 'start'});
     }
-  }
-
-  printMessage(): string {
-    return JSON.stringify(this.message);
   }
 
   onSubmitMessage(): void {

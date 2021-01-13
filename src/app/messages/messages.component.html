@@ -3,15 +3,21 @@
   <div class="col-sm-3">
     <h1 class="myFont title">Chats</h1>
     <div class="chats">
-      <div class="chat box myFont" *ngFor="let user of users" (click)="getMessages(user)">
-        <div class="clicked userDiv" *ngIf="isClicked == user; else userElseBlock">
+      <div class="chat box myFont" *ngFor="let user of objUsers" (click)="getMessages(user.login)">
+        <div class="clicked userDiv" *ngIf="isClicked == user.login; else userElseBlock">
           <img class="userLogo" src="../../assets/images/user.png" alt="User">
-          <span class="userName">{{user}}</span>
+          <div class="userRealName">
+            <span class="userName">{{user.login}}</span>
+            <span class="userName infoMessage">{{user.fName}} {{user.lName}}</span>
+          </div>
         </div>
         <ng-template #userElseBlock>
           <div class="userDiv">
             <img class="userLogo" src="../../assets/images/user.png" alt="User">
-            <span class="userName">{{user}}</span>
+            <div class="userRealName">
+              <span class="userName">{{user.login}}</span>
+              <span class="userName infoMessage">{{user.fName}} {{user.lName}}</span>
+            </div>
           </div>
         </ng-template>
       </div>

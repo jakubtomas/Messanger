@@ -197,3 +197,7 @@
 .showSpaces {
   white-space: pre-wrap;
 }
+.userRealName {
+  display: flex;
+  flex-direction: column;
+}

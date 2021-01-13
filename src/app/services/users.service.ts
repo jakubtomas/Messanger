@@ -11,13 +11,9 @@ import {MyUser} from '../entities/user';
 import {Router} from '@angular/router';
 import {SnackbarService} from './snackbar.service';
 import {Message} from '../entities/message';
+import {User} from '../entities/users';
 
-
-// anotacia ma sa tento servis brat do uvahz
-
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({providedIn: 'root'})
 export class UsersService {
 
   loginForApi = '';
@@ -25,12 +21,10 @@ export class UsersService {
   private defaultRedirect = '/messages';
 
   private serverUrl = 'http://localhost:8080/';
-  public activeLogin = '';
   // @ts-ignore
   private loggedUserSubscriber: Subscriber<string>;
 
-  constructor(private http: HttpClient, private messageService: MessageService, private router: Router, private snackbarService: SnackbarService) {
-  }
+  constructor(private http: HttpClient, private messageService: MessageService, private router: Router, private snackbarService: SnackbarService) {}
 
   set token(value: string) {
     if (value) {
@@ -96,7 +90,6 @@ export class UsersService {
         console.log('Login data user.service' + JSON.stringify(token));
 
         this.token = token;
-        //  this.activeLogin = auth.login;
         this.user = auth.login;
 
         console.log(` askking for token ` + this.token);
@@ -225,31 +218,20 @@ export class UsersService {
   }
 
   getAllUsers(): Observable<any> {
-    let httpHeaders = new HttpHeaders(
-      {
-        'Content-Type': 'application/json',
-        Authorization: 'my-auth-token'
-      });
-
-    console.log('Get ALL Users token' + this.token);
-    console.log(this.token);
-
-
+    let httpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: 'my-auth-token'
+    });
     httpHeaders = httpHeaders.set('Authorization', this.token);
 
     const body = JSON.stringify({login: this.user});
 
-
     return this.http.post<Array<any>>(this.serverUrl + 'users', body, {headers: httpHeaders}).pipe(
       map(allUsers => {
         console.log(allUsers);
-        console.log('data from get users' + allUsers);
-        console.log('data from get users' + JSON.stringify(allUsers));
+        console.log('data from get users ' + JSON.stringify(allUsers));
 
         return allUsers;
-
-
-        // return itemsHistory;
       }),
       catchError(error => {
         //     this.logout();
@@ -260,6 +242,35 @@ export class UsersService {
         return this.processHttpError(error);
       })
     );
+  }
+
+  getLoggedUsers(): Observable<any> {
+    let httpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: 'token'
+    });
+    httpHeaders = httpHeaders.set('Authorization', this.token);
+
+    return this.http.post<Array<any>>(this.serverUrl + 'loggedUsers', null,  {headers: httpHeaders}).pipe(
+      map(allUsers => {
+        console.log(allUsers);
+        return this.mapToUsers(allUsers);
+      }),
+      catchError(error => {
+        console.log('ERROR HERE SHIT');
+        console.log(' error from get users' + error);
+        console.log(' error from get users' + error.toString());
+        console.log(' error from get users' + JSON.stringify(error));
+
+        return this.processHttpError(error);
+      })
+    );
+  }
+
+  private mapToUsers(allUsers: Array<any>): MyUser[] {
+    console.log('this here');
+    console.log(allUsers);
+    return allUsers.map(user => new MyUser(user.fname, user.lname, user.login, user.password));
   }
 
   getMessagesFromUser(fromUser: string): Observable<any> {
@@ -285,7 +296,7 @@ export class UsersService {
     );
   }
 
-  mapToMessages(messages: Array<any>): Message[] {
+  private mapToMessages(messages: Array<any>): Message[] {
     return messages.map(item => new Message(item.from, item.message, item.to, item.time));
   }
 
