@@ -188,9 +188,9 @@ export class UsersService {
       mapTo(true),
       catchError(error => {
 
-        console.log(' error from GetLoginHistory' + error);
-        console.log(' error from GetLoginHistory' + error.toString());
-        console.log(' error from GetLoginHistory' + JSON.stringify(error));
+        console.log(' error from edit user' + error);
+        console.log(' error from edit user' + error.toString());
+        console.log(' error from edit user' + JSON.stringify(error));
 
         return this.processHttpError(error);
       })
@@ -215,9 +215,9 @@ export class UsersService {
       }),
       catchError(error => {
         //     this.logout();
-        console.log(' error from GetLoginHistory' + error);
-        console.log(' error from GetLoginHistory' + error.toString());
-        console.log(' error from GetLoginHistory' + JSON.stringify(error));
+        console.log(' error from get user' + error);
+        console.log(' error from get user' + error.toString());
+        console.log(' error from get user' + JSON.stringify(error));
 
         return this.processHttpError(error);
       })
@@ -243,8 +243,8 @@ export class UsersService {
     return this.http.post<Array<any>>(this.serverUrl + 'users', body, {headers: httpHeaders}).pipe(
       map(allUsers => {
         console.log(allUsers);
-        console.log('data from GetLoginHistory' + allUsers);
-        console.log('data from GetLoginHistory' + JSON.stringify(allUsers));
+        console.log('data from get users' + allUsers);
+        console.log('data from get users' + JSON.stringify(allUsers));
 
         return allUsers;
 
@@ -253,9 +253,9 @@ export class UsersService {
       }),
       catchError(error => {
         //     this.logout();
-        console.log(' error from GetLoginHistory' + error);
-        console.log(' error from GetLoginHistory' + error.toString());
-        console.log(' error from GetLoginHistory' + JSON.stringify(error));
+        console.log(' error from get users' + error);
+        console.log(' error from get users' + error.toString());
+        console.log(' error from get users' + JSON.stringify(error));
 
         return this.processHttpError(error);
       })
@@ -279,7 +279,7 @@ export class UsersService {
         return this.mapToMessages(messages);
       }),
       catchError(error => {
-        console.log(' error from GetLoginHistory' + JSON.stringify(error));
+        console.log(' error from get messages' + JSON.stringify(error));
         return this.processHttpError(error);
       })
     );
@@ -305,7 +305,29 @@ export class UsersService {
     return this.http.post<Array<any>>(this.serverUrl + 'message/new', body, {headers: httpHeaders}).pipe(
       map(_ => true),
       catchError(error => {
-        console.log(' error from GetLoginHistory' + JSON.stringify(error));
+        console.log(' error from new message' + JSON.stringify(error));
+        return this.processHttpError(error);
+      })
+    );
+  }
+
+  deleteMessage(message: Message): Observable<any> {
+    let httpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: 'Authorization'
+    });
+    httpHeaders = httpHeaders.set('Authorization', this.token);
+
+    const body = JSON.stringify({
+      login: this.user,
+      msg: message.message,
+      time: message.time
+    });
+
+    return this.http.post<Array<any>>(this.serverUrl + 'deleteMsg', body, {headers: httpHeaders}).pipe(
+      map(_ => true),
+      catchError(error => {
+        console.log(' error from delete message' + JSON.stringify(error));
         return this.processHttpError(error);
       })
     );

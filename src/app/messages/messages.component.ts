@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UsersService } from '../services/users.service';
 import { Message } from '../entities/message';
+import {$} from 'protractor';
 
 @Component({
     selector: 'app-messages',
@@ -53,6 +54,12 @@ export class MessagesComponent implements OnInit {
     this.userService.newMessage(this.message).subscribe(() => {
       this.getMessages(this.message.to);
       this.message = new Message(this.userService.user, '', this.message.to, '');
+    });
+  }
+
+  deleteMessage(message: Message): void {
+    this.userService.deleteMessage(message).subscribe(() => {
+      this.getMessages(this.isClicked);
     });
   }
 }
