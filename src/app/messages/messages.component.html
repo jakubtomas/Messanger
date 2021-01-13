@@ -27,11 +27,11 @@
           <div class="message" *ngFor="let message of messages">
             <div class="msgDiv mine" *ngIf="message.from == user; else elseBlock">
               <span class="myFont settings"><span class="myFont timeFont">{{message.time}}</span><mat-icon class="setting-icon" (click)="deleteMessage(message)">delete</mat-icon></span>
-              <div class="finalMsgFormat myMessage myFont">{{message.message}}</div>
+              <div class="finalMsgFormat myMessage myFont showSpaces">{{message.message}}</div>
             </div>
             <ng-template #elseBlock>
               <div class="msgDiv notMine">
-                <div class="finalMsgFormat incomingMessage myFont">{{message.message}}</div>
+                <div class="finalMsgFormat incomingMessage myFont showSpaces">{{message.message}}</div>
                 <span class="myFont settings"><span class="myFont timeFont">{{message.time}}</span></span>
               </div>
             </ng-template>

@@ -194,4 +194,6 @@
   color: gray;
   font-size: 10px;
 }
-
+.showSpaces {
+  white-space: pre-wrap;
+}
