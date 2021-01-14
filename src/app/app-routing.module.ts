@@ -9,7 +9,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { AuthGuard } from '../guards/auth.guard';
 
-// todo you have to add default , also page , and also Error page
+//todo create fetch page after the click on link button navigation
 const routes: Routes = [
   {path: 'users', component: UsersComponent},
   {path: 'login', component: LoginComponent},

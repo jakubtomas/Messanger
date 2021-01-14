@@ -20,7 +20,12 @@
     </table>
   </mat-card-content>
   <mat-card-actions>
-    <button type="button" mat-button data-toggle="modal" data-target="#edit-user-modal">EDIT</button>
+    <button type="button" class="btn btn-primary" mat-button data-toggle="modal" data-target="#edit-user-modal">EDIT
+    </button>
+    <button type="button" class="btn btn-danger" mat-button data-toggle="modal" data-target="#delete-user-modal">
+      DELETE
+    </button>
   </mat-card-actions>
 </mat-card>
 <app-user-edit (saved)="updateUser($event)"></app-user-edit>
+<app-user-delete></app-user-delete>

@@ -18,6 +18,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { MessagesComponent } from './messages/messages.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UserEditComponent } from './user-edit/user-edit.component';
+import {UserDeleteComponent} from './user-delete/user-delete.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { UserEditComponent } from './user-edit/user-edit.component';
     ProfileComponent,
     MessagesComponent,
     UserEditComponent,
+      UserDeleteComponent,
   ],
   imports: [
     BrowserModule,

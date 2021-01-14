@@ -34,7 +34,6 @@ export class ProfileComponent implements OnInit {
         console.log('function updateUser profile component');
 
         this.usersService.editUser(user).subscribe(data => {
-            console.log('data after edit user' + data);
 
             if (data) {
                 this.usersService.user = user.login;
@@ -45,4 +44,8 @@ export class ProfileComponent implements OnInit {
             }
         });
     }
+
+    //todo poznamka statusi kody  , a spracovanie na serveri,,  pouzitie post,get,patch, delete
+
+
 }

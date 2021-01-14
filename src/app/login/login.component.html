@@ -4,7 +4,7 @@
             <div class="card">
                 <div class="card-body">
                     <form (ngSubmit)="onSubmit()" #userForm="ngForm">
-                        <p>Auth: {{printAuth}}</p>
+
                         <div class="form-group">
                             Login:
                             <input type="text" class="form-control" name="login"
@@ -16,15 +16,6 @@
                                 required
                             </small>
                         </div>
-                        <!---->
-                        <!--<small [hidden]="validne.valid || validne.pristine" class="alert alert-danger">Login required</small>-->
-
-
-                        <!--<div class="form-group">
-                            input:
-                            <input #songInput type="text" class="form-control" (input)="writeM(songInput.value)" />
-                        </div>-->
-                        <!--  <small>login is required </small>-->
 
 
                         <div class="form-group">
