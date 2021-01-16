@@ -18,7 +18,9 @@ import { ProfileComponent } from './profile/profile.component';
 import { MessagesComponent } from './messages/messages.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UserEditComponent } from './user-edit/user-edit.component';
-import {UserDeleteComponent} from './user-delete/user-delete.component';
+import { UserDeleteComponent } from './user-delete/user-delete.component';
+import { NgxEmojModule } from 'ngx-emoj';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,7 @@ import {UserDeleteComponent} from './user-delete/user-delete.component';
     ProfileComponent,
     MessagesComponent,
     UserEditComponent,
-      UserDeleteComponent,
+    UserDeleteComponent
   ],
   imports: [
     BrowserModule,
@@ -44,6 +46,8 @@ import {UserDeleteComponent} from './user-delete/user-delete.component';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MaterialModule,
+    NgxEmojModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

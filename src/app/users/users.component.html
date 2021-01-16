@@ -1,24 +1,40 @@
-<p></p>
-<h2>Skusobna stranka ,, Neskor vymazat </h2>
+<div class="container">
+  <div class="myFont">{{text}}</div>
+  <div class="left">
+    <div class="table" [ngStyle]="{'border-radius': martBorderRadius+'px'}">
+      <ngx-emoj
+        (onemojipick)="handleEmoji($event)"
+        (onchardelete)="handleCharDelete()"
+        [width]="'342px'"
+        [height]="'334px'"
+        [theme]="{
+              martShowHeader: showHeader,
+              martShowFooter: showFooter,
+              martHeaderPadding: {x: x1+'px', y: y1+'px'},
+              martFooterPadding: {x: x2+'px', y: y2+'px'},
+              martHeaderBG: martHeaderBG,
+              martFooterBG: martFooterBG,
+              martBG: martBGcolor,
+              martCategoryColor: martCategoryColor,
+              martCategoryColorActive:  martCategoryColorActive,
+              martActiveCategoryIndicatorColor: martActiveCategoryIndicatorColor,
+              martEmojiFontSize: martEmojiFontSize+'%',
+              martCategoryFontSize: martCategoryFontSize+'px',
+              martBorderRadius: martBorderRadius+'px',
+              martActiveCategoryIndicatorHeight: martActiveCategoryIndicatorHeight+'px',
+              martEmojiPadding: {x: x3+'px', y: y3+'px'}
+            }">
+      </ngx-emoj>
 
-<h2>{{value}}</h2>
-
-<table class="table table-hover">
-    <thead>
-    <tr>
-        <th>id</th>
-        <th>meno</th>
-        <th>e-mail</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let user of users" (click)="selectUser(user)">
-        <td>{{user.id}}</td>
-        <td>{{user.name}}</td>
-        <td>{{user.email}}</td>
-    </tr>
-    </tbody>
-</table>
-
+    </div>
+  </div>
+</div>
 <br>
-<p *ngIf="selectedUser">Vybratý používateľ: {{selectedUser.name}} </p>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<button class="myFont btn-lg btn-primary" mat-button (click)="openDialog()">Launch dialog</button>

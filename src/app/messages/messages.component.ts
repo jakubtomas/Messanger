@@ -11,7 +11,6 @@ import {MyUser} from '../entities/user';
 export class MessagesComponent implements OnInit {
 
   // TODO users that last messaged me or i messaged will be first in chats
-  // TODO if many users or messages -> scroll (edit scrollbar css)
 
   constructor(private userService: UsersService) {}
 

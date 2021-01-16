@@ -30,7 +30,7 @@
     <div class="list-group">
       <span class="infoMessage" *ngIf="isClicked == ''; else mainElseBlock">Choose a person to chat with!</span>
       <ng-template #mainElseBlock>
-        <span class="infoMessage" *ngIf="messages.length == 0; else outerElseBlock">No messages yet! Try saying hello to your friends.</span>
+        <span class="infoMessage" *ngIf="messages.length == 0; else outerElseBlock">No messages yet! Try saying hello to your friend.</span>
         <ng-template #outerElseBlock>
           <div class="message" *ngFor="let message of messages">
             <div class="msgDiv mine" *ngIf="message.from == user; else elseBlock">
