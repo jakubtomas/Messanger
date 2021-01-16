@@ -26,10 +26,14 @@
 }
 .col-sm-3 {
   padding: 10px;
+  max-height: 100%;
 }
 .chats {
   border-top: solid gray;
-  padding-top: 10px;
+  border-radius: 5px;
+  padding: 10px;
+  max-height: calc(100% - 32px);
+  overflow-y: scroll;
 }
 .chat {
   height: 50px;
@@ -54,6 +58,7 @@
 }
 .userName {
   padding-left: 10px;
+  text-align: left;
 }
 
 
@@ -99,6 +104,7 @@
   flex-direction: column;
   justify-content: flex-end;
   padding-right: 3px;
+  border-radius: 5px;
 }
 .message {
   width: auto;
@@ -148,6 +154,7 @@
 .list-group {
   overflow-y: scroll;
   padding-right: 5px;
+  margin-top: auto;
 }
 ::-webkit-scrollbar {
   width: 5px;
@@ -199,4 +206,19 @@
 .userRealName {
   display: flex;
   flex-direction: column;
+}
+.headerWrapper {
+  min-height: 43px;
+  font-weight: 500;
+  font-size: 23px;
+  margin-right: 8px;
+  padding: 0 0 10px 5px;
+  display: flex;
+  align-items: center;
+  border-bottom: solid grey;
+  border-radius: 5px;
+}
+.wrapperInfo {
+  font-weight: 300;
+  font-size: 18px;
 }

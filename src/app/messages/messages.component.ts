@@ -19,6 +19,7 @@ export class MessagesComponent implements OnInit {
   public objUsers: Array<MyUser> = [];
   public messages: Array<Message> = [];
   public user = '';
+  public objUser = new MyUser('', '', '', '');
   public isClicked = '';
   message = new Message(this.userService.user, '', '', '');
 
@@ -28,18 +29,17 @@ export class MessagesComponent implements OnInit {
     });
     this.userService.getLoggedUsers().subscribe(objUsers => {
       this.objUsers = objUsers;
-      console.log('this this this');
-      console.log(objUsers);
     });
     this.user = this.userService.user;
   }
 
-  getMessages(fromUser: any): void {
-    this.message.to = fromUser;
-    this.isClicked = fromUser;
+  getMessages(fromUser: MyUser): void {
+    this.message.to = fromUser.login;
+    this.isClicked = fromUser.login;
+    this.objUser = fromUser;
     this.message.message = '';
 
-    this.userService.getMessagesFromUser(fromUser).subscribe(messages => {
+    this.userService.getMessagesFromUser(fromUser.login).subscribe(messages => {
       this.messages = messages;
     });
 
@@ -54,14 +54,16 @@ export class MessagesComponent implements OnInit {
       return;
     }
     this.userService.newMessage(this.message).subscribe(() => {
-      this.getMessages(this.message.to);
+      const tempUser = new MyUser(this.objUser.fName, this.objUser.lName, this.message.to, '');
+      this.getMessages(tempUser);
       this.message = new Message(this.userService.user, '', this.message.to, '');
     });
   }
 
   deleteMessage(message: Message): void {
     this.userService.deleteMessage(message).subscribe(() => {
-      this.getMessages(this.isClicked);
+      const tempUser = new MyUser(this.objUser.fName, this.objUser.lName, this.objUser.login, '');
+      this.getMessages(tempUser);
     });
   }
 }

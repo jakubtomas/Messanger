@@ -3,7 +3,7 @@
   <div class="col-sm-3">
     <h1 class="myFont title">Chats</h1>
     <div class="chats">
-      <div class="chat box myFont" *ngFor="let user of objUsers" (click)="getMessages(user.login)">
+      <div class="chat box myFont" *ngFor="let user of objUsers" (click)="getMessages(user)">
         <div class="clicked userDiv" *ngIf="isClicked == user.login; else userElseBlock">
           <img class="userLogo" src="../../assets/images/user.png" alt="User">
           <div class="userRealName">
@@ -25,6 +25,8 @@
   </div>
 
   <div class="col-sm-9 messages">
+    <div class="myFont headerWrapper" *ngIf="isClicked">{{objUser.login}} &nbsp; <span class="infoMessage wrapperInfo">{{objUser.fName +' '+ objUser.lName}}</span></div>
+
     <div class="list-group">
       <span class="infoMessage" *ngIf="isClicked == ''; else mainElseBlock">Choose a person to chat with!</span>
       <ng-template #mainElseBlock>
