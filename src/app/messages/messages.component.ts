@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { UsersService } from '../services/users.service';
 import { Message } from '../entities/message';
 import {MyUser} from '../entities/user';
+import {DialogComponent} from '../dialog/dialog.component';
+import {MatDialog} from '@angular/material/dialog';
+import {toBase64String} from '@angular/compiler/src/output/source_map';
 
 @Component({
     selector: 'app-messages',
@@ -10,9 +13,7 @@ import {MyUser} from '../entities/user';
 })
 export class MessagesComponent implements OnInit {
 
-  // TODO users that last messaged me or i messaged will be first in chats
-
-  constructor(private userService: UsersService) {}
+  constructor(private userService: UsersService, private dialog: MatDialog) {}
 
   public users: Array<any> = [];
   public objUsers: Array<MyUser> = [];
@@ -63,6 +64,20 @@ export class MessagesComponent implements OnInit {
     this.userService.deleteMessage(message).subscribe(() => {
       const tempUser = new MyUser(this.objUser.fName, this.objUser.lName, this.objUser.login, '');
       this.getMessages(tempUser);
+    });
+  }
+
+
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(DialogComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === undefined) {
+        return;
+      } else {
+        this.message.message = result;
+        this.onSubmitMessage();
+      }
     });
   }
 }

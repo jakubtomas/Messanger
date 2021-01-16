@@ -322,6 +322,7 @@ export class UsersService {
 
         return this.http.post<Array<any>>(this.serverUrl + 'messages', body, {headers: httpHeaders}).pipe(
             map(messages => {
+                console.log(messages);
                 return this.mapToMessages(messages);
             }),
             catchError(error => {

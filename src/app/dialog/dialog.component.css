@@ -1,0 +1,37 @@
+::ng-deep .mat-dialog-container .ng-tns-c82-0 .ng-trigger .ng-trigger-dialogContainer .ng-star-inserted {
+  background-color: transparent;
+}
+::ng-deep .cdk-overlay-backdrop .cdk-overlay-dark-backdrop .cdk-overlay-backdrop-showing {
+  background-color: transparent;
+}
+::ng-deep .mat-dialog-container {
+  background: transparent;
+  box-shadow: none;
+}
+::ng-deep .myFont {
+  color: white;
+}
+::ng-deep .ngx-emoji-category-content[style] {
+  border-bottom: 0 solid transparent !important;
+  height: 85% !important;
+}
+::ng-deep .emojiText {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 6px;
+}
+::ng-deep .btn-primary {
+  height: 37px;
+  margin-left: 5px;
+}
+::ng-deep .cdk-overlay-pane[style] {
+  position: relative !important;
+  top: 150px !important;
+  right: 55px;
+}
+::ng-deep .container {
+  padding: 0;
+}
+::ng-deep mat-dialog-container{
+  padding: 0 !important;
+}

@@ -1,0 +1,38 @@
+<div class="container">
+  <div class="emojiText">
+    <input type="text" name="msg" class="form-control" placeholder="pick an emoji" [(ngModel)]="text">
+
+    <button type="submit" class="btn btn-primary" (click)="onSubmit()">
+      <mat-icon>send</mat-icon>
+    </button>
+
+  </div>
+  <div class="left">
+    <div class="table" [ngStyle]="{'border-radius': martBorderRadius+'px'}">
+      <ngx-emoj
+        (onemojipick)="handleEmoji($event)"
+        (onchardelete)="handleCharDelete()"
+        [width]="'342px'"
+        [height]="'334px'"
+        [theme]="{
+          martShowHeader: true,
+          martShowFooter: false,
+          martHeaderPadding: {x: '0px', y: '0px'},
+          martFooterPadding: {x: '0px', y: '0px'},
+          martHeaderBG: '#e3e7e8',
+          martFooterBG: '#e3e7e8',
+          martBG: '#ebeff2',
+          martCategoryColor: '#94a0a6',
+          martCategoryColorActive:  '#455a64',
+          martActiveCategoryIndicatorColor: '#0073ff',
+          martEmojiFontSize: '150%',
+          martCategoryFontSize: '20px',
+          martBorderRadius: '10px',
+          martActiveCategoryIndicatorHeight: '4px',
+          martEmojiPadding: {x: '40px', y: '40px'}
+        }">
+
+      </ngx-emoj>
+    </div>
+  </div>
+</div>

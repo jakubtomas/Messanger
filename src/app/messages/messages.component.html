@@ -52,6 +52,9 @@
     <div class="container-fluid row messageInput">
       <form (ngSubmit)="onSubmitMessage()" autocomplete="off" class="messageInput">
         <div class="form-group">
+          <button type="button" class="btn btn-primary emoji" (click)="openDialog()">
+            <mat-icon>add_reaction</mat-icon>
+          </button>
           <input type="text" name="msg" class="form-control" placeholder="message {{message.to}}" [(ngModel)]="message.message" required minlength="1">
 
           <button type="submit" class="btn btn-primary">

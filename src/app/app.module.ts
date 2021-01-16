@@ -21,6 +21,7 @@ import { UserEditComponent } from './user-edit/user-edit.component';
 import { UserDeleteComponent } from './user-delete/user-delete.component';
 import { NgxEmojModule } from 'ngx-emoj';
 import { MatDialogModule } from '@angular/material/dialog';
+import { DialogComponent } from './dialog/dialog.component';
 
 @NgModule({
   declarations: [
@@ -36,8 +37,10 @@ import { MatDialogModule } from '@angular/material/dialog';
     ProfileComponent,
     MessagesComponent,
     UserEditComponent,
-    UserDeleteComponent
+    UserDeleteComponent,
+    DialogComponent
   ],
+  entryComponents: [DialogComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
