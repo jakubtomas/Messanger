@@ -22,6 +22,11 @@ import { UserDeleteComponent } from './user-delete/user-delete.component';
 import { NgxEmojModule } from 'ngx-emoj';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DialogComponent } from './dialog/dialog.component';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatTableModule} from '@angular/material/table';
+import {MatSortModule} from '@angular/material/sort';
 
 @NgModule({
   declarations: [
@@ -50,7 +55,12 @@ import { DialogComponent } from './dialog/dialog.component';
     BrowserAnimationsModule,
     MaterialModule,
     NgxEmojModule,
-    MatDialogModule
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatPaginatorModule,
+    MatTableModule,
+    MatSortModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

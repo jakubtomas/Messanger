@@ -1,26 +1,33 @@
-<h2>HISTORY Login/logout</h2>
 <div class="container">
-    <div class="row justify-content-center align-items-center">
-        <div class="col-6">
-            <table *ngIf="dataFromService" class="table table-striped">
-                <tbody>
+  <h2 class="myFont">HISTORY Login/logout</h2>
 
-                <tr *ngFor="let item of items">
-                    <td>{{item.datetime}}</td>
-                    <td>{{item.type}}</td>
-                    <td>{{item.login}}</td>
-                </tr>
-                <!-- todo change the  background color for better  reading  dog -->
-                </tbody>
-                <thead>
-                <tr>
-                    <th scope="col">dateTime</th>
-                    <th scope="col">type</th>
-                    <th scope="col">login</th>
-                </tr>
-                </thead>
-            </table>
+  <mat-form-field class="filter">
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="search..." #input>
+  </mat-form-field>
 
-        </div>
-    </div>
+  <table mat-table matSort [dataSource]="logDataSource" class="mat-elevation-z8"  >
+    <ng-container matColumnDef="datetime">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
+      <td mat-cell *matCellDef="let row"> {{row.datetime}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="type">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Type </th>
+      <td mat-cell *matCellDef="let row"> {{row.type}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="login">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Login </th>
+      <td mat-cell *matCellDef="let row"> {{row.login}}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columns"></tr>
+    <tr mat-row *matRowDef="let row; columns: columns"></tr>
+  </table>
+
+  <mat-paginator class="paginator" [length]="100"
+                 [pageSize]="5"
+                 [pageSizeOptions]="[10, 25, 100]">
+  </mat-paginator>
 </div>
