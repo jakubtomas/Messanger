@@ -27,6 +27,7 @@ export class UsersService {
     constructor(private http: HttpClient, private messageService: MessageService, private router: Router, private snackbarService: SnackbarService) {
     }
 
+
     set token(value: string) {
         if (value) {
             localStorage.setItem('token', value);
@@ -95,6 +96,7 @@ export class UsersService {
                 this.token = token;
                 this.user = auth.login;
 
+                // token user
                 console.log(` askking for token ` + this.token);
                 // this.token("hello");
                 this.loginForApi = auth.login;

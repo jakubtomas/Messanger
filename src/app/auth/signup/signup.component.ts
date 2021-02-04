@@ -63,9 +63,6 @@ export class SignupComponent implements OnInit {
             );
     }
 
-    writingPassword() {
-
-    }
 
     confirmPassword = debounce((): void => {
 

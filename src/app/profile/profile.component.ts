@@ -45,7 +45,6 @@ export class ProfileComponent implements OnInit {
         });
     }
 
-    //todo poznamka statusi kody  , a spracovanie na serveri,,  pouzitie post,get,patch, delete
 
 
 }

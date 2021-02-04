@@ -11,7 +11,6 @@ import { AuthGuard } from '../guards/auth.guard';
 
 //todo create fetch page after the click on link button navigation
 const routes: Routes = [
-  {path: 'users', component: UsersComponent},
   {path: 'login', component: LoginComponent},
   {path: 'signup', component: SignupComponent},
   {path: 'loginHistory', component: LoginHistoryComponent, canActivate: [AuthGuard]},
