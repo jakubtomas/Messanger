@@ -6,11 +6,13 @@
 body {
     padding: 0;
     margin: 0;
+    background-color: #fff;
 }
 
 #notfound {
     position: relative;
     height: 100vh;
+    background-color: #fff;
 }
 
 #notfound .notfound {

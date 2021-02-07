@@ -59,17 +59,23 @@
                         <div class="form-group">
                             repeat password
                             <input type="password" class="form-control" name="password2"
-                                   [(ngModel)]="password2" required #secondPassword="ngModel"
+                                   [(ngModel)]="password2" required #secondPassword="ngModel" minlength="6"
                                    (input)="confirmPassword()">
 
                             <p><span [hidden]="secondPassword.valid  || secondPassword.pristine "
-                                     class="small  alert-danger">Repeat Password required </span>
-                            <p *ngIf="pswdMessage"><span class="small  alert-danger"> Password must match </span></p>
+                                     class="small  alert-danger">Repeat Password required and Minimum password length is 6</span>
+                            <p *ngIf="pswdMatchMessage"><span class="small  alert-danger"> Password must match </span>
+                            </p>
+                            <p *ngIf="pswdLengthMessage"><span
+                                    class="small  alert-danger"> Minimum password length is 6 </span></p>
+
+
                         </div>
 
                         <button type="submit" id="sendlogin" class="btn btn-primary"
-                                [disabled]="!signUpForm.form.valid">Create Account
+                                [disabled]="!signUpForm.form.valid ">Create Account
                         </button>
+
                     </form>
                 </div>
             </div>

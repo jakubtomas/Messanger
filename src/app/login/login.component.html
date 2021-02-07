@@ -21,7 +21,7 @@
                         <div class="form-group">
                             Password:
                             <input type="password" class="form-control" name="password"
-                                   [(ngModel)]="auth.password" required minlength="3" #password="ngModel">
+                                   [(ngModel)]="auth.password" required #password="ngModel">
                             <br>
                             <!--<small [hidden]="password.valid || password.pristine" class="alert alert-danger">Password required </small>-->
 

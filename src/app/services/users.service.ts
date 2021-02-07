@@ -388,24 +388,31 @@ export class UsersService {
         if (error instanceof HttpErrorResponse) {
             if (error.status === 0) {
                 this.messageService.sendMessage('Server unavailable');
+                this.snackbarService.errorMsg("Server unavailable");
+
             } else {
                 if (error.status >= 400 && error.status < 500) {
-                    const message = error.error.error
-                        ? error.error.error
-                        : JSON.parse(error.error).error;
+                    const message = error.error.error ? error.error.error : JSON.parse(error.error).error;
                     //   const message = error.error.error ?? JSON.parse(error.error).error;
                     console.log(message);
+                    console.log("400 az  500 ----------------");
 
+                    this.snackbarService.errorMsg(message);
                     this.messageService.sendMessage(message);
                 } else {
                     this.messageService.sendMessage('Server error: ' + error.message);
+                    this.snackbarService.errorMsg('Server error: ' + error.message);
+
+
                 }
             }
         } else {
             console.log('Server error ' + error);
             console.log(error);
 
-            this.messageService.sendMessage('Client error : ' + JSON.stringify(error));
+            this.messageService.sendMessage('Programmers error : ' + JSON.stringify(error));
+            this.snackbarService.errorMsg('Server error: ' + error.message);
+
         }
         console.error('Server error: ', error);
         return EMPTY;

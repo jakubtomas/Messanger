@@ -1,0 +1,11 @@
+.greenSnackBarAction .mat-simple-snackbar-action .mat-button-wrapper {
+    color: limegreen;
+}
+
+.redSnackbarAction .mat-simple-snackbar-action .mat-button-wrapper {
+    color: tomato;
+}
+
+.greenSnackBarAction {
+    color: green;
+}

@@ -8,7 +8,7 @@ import { Message, MessageService } from '../services/message.service';
 })
 export class MessageComponent implements OnInit {
 
-    readonly MESSAGE_INTERVAL = 3000; // 3 sekundy
+    readonly MESSAGE_INTERVAL = 5000; // 5 sekundy
     message: string | undefined;
     messageType: 'danger' | 'success' = 'danger';
 

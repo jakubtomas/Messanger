@@ -4,6 +4,7 @@ import {Router} from "@angular/router";
 import {UsersService} from "../../services/users.service";
 import {RegistrationUser} from "./registrationUser";
 import {debounce} from "lodash-es";
+import {SnackbarService} from "../../services/snackbar.service";
 
 @Component({
     selector: 'signup',
@@ -13,54 +14,35 @@ import {debounce} from "lodash-es";
 export class SignupComponent implements OnInit {
 
     public password2: string = '';
-    public pswdMessage: string = '';
+    public pswdMatchMessage: boolean = false;
+    public pswdLengthMessage: boolean = true;
     public value: string = '';
     public error: string = '';
+    public doesntMatchPasswords: boolean = true;
     registrationUser = new RegistrationUser();
 
     constructor(private userService: UsersService,
-                private router: Router) {
+                private router: Router,
+                private snackbarService: SnackbarService) {
     }
 
     ngOnInit(): void {
-        /*this.signupForm = new FormGroup({
-          username: new FormControl('', Validators.required),
-          email: new FormControl('', [Validators.required, Validators.email]),
-          password: new FormControl('', Validators.required),
-        });*/
+
     }
 
 
-    get printAuth() {
-        return JSON.stringify(this.registrationUser);
-    }
-
-    get printData() {
-        return JSON.stringify(this.value)
-    }
-
-    get printError() {
-        return JSON.stringify(this.error)
-    }
 
     onSubmit() {
         console.log("Click button  onSubmit");
-        this.userService.signup(this.registrationUser)
-            .subscribe((data: any) => {//(data: any)
-                    console.log("data in signup");
 
-                    console.log(data);
-                    console.log("Json stringifz data  " + JSON.stringify(data));
+        if (this.registrationUser.password !== this.password2) {
+            this.pswdMatchMessage = true;
+            this.snackbarService.errorMsg('Password must match');
 
-                this.value = data;
+        } else {
+            this.userService.signup(this.registrationUser).subscribe();
+        }
 
-                if (data) {
-                    this.router.navigateByUrl("/login");
-                }
-                // todo  when account successfully created do redirectAfterRegistration to Login component
-                // this.router.navigateByUrl(this.userService.redirectAfterLogin);
-                }
-            );
     }
 
 
@@ -69,11 +51,11 @@ export class SignupComponent implements OnInit {
         console.log('first password   ' + this.registrationUser.password);
         console.log("second password   " + this.password2);
 
-        if (this.registrationUser.password !== this.password2) {
-            this.pswdMessage = 'Passwords must match';
-        } else {
-            this.pswdMessage = '';
+        if (this.registrationUser.password.length > 5 && this.password2.length > 5) {
+            this.pswdLengthMessage = false;
         }
+
+        this.pswdMatchMessage = this.registrationUser.password !== this.password2;
 
 
     }, 300);

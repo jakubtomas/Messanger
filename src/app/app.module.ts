@@ -28,6 +28,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -60,7 +61,8 @@ import {MatSortModule} from '@angular/material/sort';
     MatInputModule,
     MatPaginatorModule,
     MatTableModule,
-    MatSortModule,
+    MatSortModule
+
   ],
   providers: [],
   bootstrap: [AppComponent]
