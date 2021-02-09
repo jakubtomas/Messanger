@@ -1,4 +1,4 @@
-### Instruction for running project 
+### Instruction for starting project 
 ```java
 Create Mongo Databasa -----> name javaServer       27017
 Create 3 Collections ------> loginHistory , messages, users 
