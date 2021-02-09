@@ -1,3 +1,11 @@
+### Instruction for running project 
+```java
+Create Mongo Databasa -----> name javaServer       27017
+Create 3 Collections ------> loginHistory , messages, users 
+Run server with commmand java -jar myServer.jar
+Install packages and run project 
+```
+
 # Messanger1
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.2.
